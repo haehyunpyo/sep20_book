@@ -18,20 +18,25 @@ public class BooklistController {
 	private BooklistService booklistService; 
 
 	@GetMapping("/booklist")
-	public String list(Model model) {
-		List<BooklistDTO> list = booklistService.list();
-		model.addAttribute("list", list);
+	public String list(Model model, @RequestParam(name = "bkcate", required = false, defaultValue = "0") int bkcate) {
+		//책 목록 불러오기
+		List<BooklistDTO> booklist = booklistService.booklist(bkcate);
+		model.addAttribute("booklist", booklist);
+		
 		
 		return "booklist";
 	}
 	
-	@GetMapping("bookdetail")
+	@GetMapping("/bookdetail")
 	public String detail(@RequestParam("bkno") int bkno,Model model) {
 		
+		//책 상세페이지
+		Map<String, Object> bookdetail = booklistService.bookdetail(bkno);
+		model.addAttribute("bookdetail", bookdetail);
 		
-		Map<String, Object> detail = booklistService.detail(bkno);
-		model.addAttribute("detail", detail);
-		
+		//베스트셀러
+		List<BooklistDTO> booktop = booklistService.booktop();
+		model.addAttribute("booktop", booktop);
 		
 		return "bookdetail";
 	}

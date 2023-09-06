@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>    
     
 <!DOCTYPE html>
 <html>
@@ -65,15 +66,7 @@
       </div>
 
       <div class="main">
-        <section class="module bg-dark-60 shop-page-header" data-background="assets/images/shop/product-page-bg.jpg">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-6 col-sm-offset-3">
-                <h2 class="module-title font-alt">Shop Products</h2>
-                <div class="module-subtitle font-serif">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart.</div>
-              </div>
-            </div>
-          </div>
+        <section class="module shop-page-header" data-background="../img/page/bp1.jpg">
         </section>
         <section class="module-small">
           <div class="container">
@@ -115,13 +108,13 @@
         <section class="module-small">
           <div class="container">
             <div class="row multi-columns-row">
-              <c:forEach items="${list }" var="row">         
+              <c:forEach items="${booklist }" var="row">         
               <div class="col-sm-6 col-md-4 col-lg-4">
                 <div class="shop-item">
                   <div class="shop-item-image"><img src="${row.bkimg}" alt="책이미지"/>
                     <div class="shop-item-detail" ><a class="btn btn-round btn-b" href="./bookdetail?bkno=${row.bkno}"><span class="icon-basket">상세보기</span></a></div>
                   </div>
-                  <h4 class="shop-item-title font-alt"><a href="./bookdetail?bkno=${row.bkno}">${row.bkname} / ${row.bkwrite}</a></h4>${row.bkprice}원
+                  <h3 class="shop-item-title font-alt"><a href="./bookdetail?bkno=${row.bkno}">${row.bkname}</a></h3><h6>${row.bkwrite}</h6><fmt:formatNumber value="${row.bkprice}" pattern="#,###"/>원
                 </div>
               </div>
               </c:forEach>

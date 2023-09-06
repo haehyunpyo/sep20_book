@@ -56,7 +56,6 @@
     <link id="color-scheme" href="assets/css/colors/default.css" rel="stylesheet">
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
-    <main>
       <div class="page-loader">
         <div class="loader">Loading...</div>
       </div>
@@ -112,16 +111,16 @@
                     </ul>
                   </li>
                 </ul>
-              </li>
-              <li class="dropdown"><a class="dropdown-toggle" href="./booklist" data-toggle="dropdown">책</a>
+              <li class="dropdown"><a class="dropdown-toggle" href="./booklist?bkcate=0" data-toggle="dropdown">책</a>
                 <ul class="dropdown-menu" role="menu">
-                  <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">국내도서</a>
+                  <li class="dropdown"><a class="dropdown-toggle" href="./booklist?bkcate=0" data-toggle="dropdown">도서</a>
                     <ul class="dropdown-menu">
                       <li><a href="shop_product_col_3.html">3 columns</a></li>
                       <li><a href="shop_product_col_4.html">4 columns</a></li>
                     </ul>
                   </li>
-                  <li><a href="shop_single_product.html">외국도서</a></li>
+                  <li><a href="./booklist?bkcate=1">국내도서</a></li>
+                  <li><a href="./booklist?bkcate=2">외국도서</a></li>
                 </ul>
               </li>
               

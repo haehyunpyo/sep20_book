@@ -2,15 +2,33 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.book.web.booklist.BooklistDAO">
 
-<select id="list" resultType="BooklistDTO">
-  SELECT * 
+<select id="booklist" parameterType="Integer" resultType="BooklistDTO">
+  SELECT bkno, bkname, bkwrite, bkimg, bkprice, bkcate,
+         (
+         SELECT COUNT(*) FROM books
+         <where>
+         <if test="bkcate gt 0">AND bkcate = #{bkcate}</if>
+         </where>
+         ) AS count
   FROM books
+  <where>
+    <if test="bkcate gt 0">
+        AND bkcate = #{bkcate}
+    </if>
+  </where>
+    ORDER BY bkno asc
+  
 </select>
 
-<select id="detail" parameterType="Integer" resultType="Map">
-		SELECT *
-		FROM books WHERE bkno=#{bkno }
+<select id="bookdetail" parameterType="Integer" resultType="Map">
+  SELECT *
+  FROM books WHERE bkno=#{bkno }
 </select>
 
+<select id="booktop" resultType="BooklistDTO">
+  SELECT *
+  FROM books 
+  ORDER BY bcnt DESC
+</select>
 
 </mapper>
