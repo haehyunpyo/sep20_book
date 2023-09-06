@@ -113,14 +113,14 @@
                 </ul>
               <li class="dropdown"><a class="dropdown-toggle" href="./booklist?bkcate=0" data-toggle="dropdown">책</a>
                 <ul class="dropdown-menu" role="menu">
-                  <li class="dropdown"><a class="dropdown-toggle" href="./booklist?bkcate=0" data-toggle="dropdown">도서</a>
+                  <li><a href="./booklist?bkcate=0">도서</a>
+                  </li>
+                  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">장르</a>
                     <ul class="dropdown-menu">
-                      <li><a href="shop_product_col_3.html">3 columns</a></li>
-                      <li><a href="shop_product_col_4.html">4 columns</a></li>
+                      <li><a href="./booklist?bkcate=1">국내도서</a></li>
+                      <li><a href="./booklist?bkcate=2">외국도서</a></li>
                     </ul>
                   </li>
-                  <li><a href="./booklist?bkcate=1">국내도서</a></li>
-                  <li><a href="./booklist?bkcate=2">외국도서</a></li>
                 </ul>
               </li>
               

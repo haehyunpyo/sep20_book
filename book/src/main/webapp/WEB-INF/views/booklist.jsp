@@ -7,7 +7,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--  
     Document Title
@@ -68,6 +68,8 @@
       <div class="main">
         <section class="module shop-page-header" data-background="../img/page/bp1.jpg">
         </section>
+        
+        <!-- 필터 , 검색옵션 -->
         <section class="module-small">
           <div class="container">
             <form class="row">
@@ -104,15 +106,21 @@
             </form>
           </div>
         </section>
+        
+        <!-- 본문 책리스트 -->
         <hr class="divider-w">
         <section class="module-small">
           <div class="container">
             <div class="row multi-columns-row">
               <c:forEach items="${booklist }" var="row">         
-              <div class="col-sm-6 col-md-4 col-lg-4">
+              <div class="col-sm-3 col-md-3 col-lg-3">
                 <div class="shop-item">
                   <div class="shop-item-image"><img src="${row.bkimg}" alt="책이미지"/>
-                    <div class="shop-item-detail" ><a class="btn btn-round btn-b" href="./bookdetail?bkno=${row.bkno}"><span class="icon-basket">상세보기</span></a></div>
+                    <div class="shop-item-detail" ><a class="btn btn-round btn-b" href="./bookdetail?bkno=${row.bkno}">
+                    상세보기</a><br><br>
+                    <a class="btn btn-round btn-b" href="">
+                    찜하기</a>
+                    </div>
                   </div>
                   <h3 class="shop-item-title font-alt"><a href="./bookdetail?bkno=${row.bkno}">${row.bkname}</a></h3><h6>${row.bkwrite}</h6><fmt:formatNumber value="${row.bkprice}" pattern="#,###"/>원
                 </div>
@@ -126,6 +134,8 @@
             </div>
           </div>
         </section>
+        
+        <!-- 하단 풋 -->
         <div class="module-small bg-dark">
           <div class="container">
             <div class="row">
@@ -206,18 +216,18 @@
     JavaScripts
     =============================================
     -->
-    <script src="assets/lib/jquery/dist/jquery.js"></script>
-    <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="assets/lib/wow/dist/wow.js"></script>
-    <script src="assets/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js"></script>
-    <script src="assets/lib/isotope/dist/isotope.pkgd.js"></script>
-    <script src="assets/lib/imagesloaded/imagesloaded.pkgd.js"></script>
-    <script src="assets/lib/flexslider/jquery.flexslider.js"></script>
-    <script src="assets/lib/owl.carousel/dist/owl.carousel.min.js"></script>
-    <script src="assets/lib/smoothscroll.js"></script>
-    <script src="assets/lib/magnific-popup/dist/jquery.magnific-popup.js"></script>
-    <script src="assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js"></script>
-    <script src="assets/js/plugins.js"></script>
-    <script src="assets/js/main.js"></script>
+    <script src="../assets/lib/jquery/dist/jquery.js"></script>
+    <script src="../assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../assets/lib/wow/dist/wow.js"></script>
+    <script src="../assets/lib/jquery.mb.ytplayer/dist/jquery.mb.YTPlayer.js"></script>
+    <script src="../assets/lib/isotope/dist/isotope.pkgd.js"></script>
+    <script src="../assets/lib/imagesloaded/imagesloaded.pkgd.js"></script>
+    <script src="../assets/lib/flexslider/jquery.flexslider.js"></script>
+    <script src="../assets/lib/owl.carousel/dist/owl.carousel.min.js"></script>
+    <script src="../assets/lib/smoothscroll.js"></script>
+    <script src="../assets/lib/magnific-popup/dist/jquery.magnific-popup.js"></script>
+    <script src="../assets/lib/simple-text-rotator/jquery.simple-text-rotator.min.js"></script>
+    <script src="../assets/js/plugins.js"></script>
+    <script src="../assets/js/main.js"></script>
   </body>
 </html>
