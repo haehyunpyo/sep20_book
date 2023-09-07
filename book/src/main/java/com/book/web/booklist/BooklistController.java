@@ -16,14 +16,25 @@ public class BooklistController {
 	private BooklistService booklistService; 
 
 	@GetMapping("/booklist")
-	public String list(Model model, @RequestParam(name = "bkcate", required = false, defaultValue = "0") int bkcate) {
+	public String list(Model model, 
+		@RequestParam(name = "bkcate", required = false, defaultValue = "0") int bkcate,
+		@RequestParam Map<String, Object> map) {
+		
+		if(!(map.containsKey("bkcate")) || map.get("bkcate").equals(null) || map.get("bkcate").equals("")){
+			map.put("bkcate", 0);
+			
+		}
+		System.out.println("카테고리 :" + bkcate );
+		System.out.println("검색 :" + map );
 		//책 목록 불러오기
-		List<BooklistDTO> booklist = booklistService.booklist(bkcate);
+		List<Map<String, Object>> booklist = booklistService.booklist(map);
+		//List<BooklistDTO> booklist = booklistService.booklist(bkcate);
 		model.addAttribute("booklist", booklist);
 		
 		
 		return "booklist";
 	}
+	
 	
 	@GetMapping("/bookdetail")
 	public String detail(@RequestParam("bkno") int bkno,Model model) {

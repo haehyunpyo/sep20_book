@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface BooklistDAO {
 
-	List<BooklistDTO> booklist(int bkcate);
+	List<Map<String, Object>> booklist(Map<String, Object> map);
 
 	Map<String, Object> bookdetail(int bkno);
 

@@ -57,6 +57,28 @@
     <!-- Main stylesheet and color file-->
     <link href="assets/css/style.css" rel="stylesheet">
     <link id="color-scheme" href="assets/css/colors/default.css" rel="stylesheet">
+    <link href="../css/bookdetail.css" rel="stylesheet">
+    <script type="text/javascript">
+
+
+    var zHeart1 = false; // 초기 상태는 heart2.png 입니다.
+
+    function toggleImg() {
+      var img = document.getElementById("zheart");
+
+      // 이미지 상태에 따라 다른 이미지로 교체합니다.
+      if (zHeart1) {
+    	  img.src = "../img/icon/heart2.png"; // 원래 이미지로 변경
+      } else {
+    	  img.src = "../img/icon/heart1.png"; // 다른 이미지로 변경
+      }
+
+      // 상태를 토글합니다.
+      zHeart1 = !zHeart1;
+    }
+    
+    
+    </script>
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
   <%@ include file="menu.jsp"%>
@@ -74,6 +96,7 @@
                 <div class="row">
                   <div class="col-sm-12">
                     <h1 class="product-title font-alt">${bookdetail.bkname }</h1>
+                    <img class="zheart" id="zheart" src="../img/icon/heart2.png" onclick="toggleImg()"/>
                   </div>
                   <div class="col-sm-12">
                     <h5 class="product-title font-alt">${bookdetail.bkwrite }</h5>
@@ -84,7 +107,7 @@
                   </div>
                 </div>
                 <div class="row mb-20">
-                  <div class="col-sm-12">
+                  <div class="col-sm-6">
                     <div class="price font-alt"><span class="amount"><fmt:formatNumber value="${bookdetail.bkprice }" pattern="#,###"/>원</span></div>
                   </div>
                 </div>
@@ -122,7 +145,7 @@
                 </div>
                 <div class="row mb-20">
                   <div class="col-sm-12">
-                    <div class="product_meta">분류:<a href="#"> 일본소설</a>,<a href="#">소설</a>,<a href="#">${bookdetail.bkwrite }</a>
+                    <div class="product_meta" >태그: <a href="./booklist?searchN=write&searchV=${bookdetail.bkwrite }" >#${bookdetail.bkwrite }</a>
                     </div>
                   </div>
                 </div>
@@ -198,49 +221,7 @@
             </div>
           </div>
         </section>
-<!--         <section class="module-small">
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-6 col-sm-offset-3">
-                <h2 class="module-title font-alt">Related Products</h2>
-              </div>
-            </div>
-            <div class="row multi-columns-row">
-              <div class="col-sm-6 col-md-3 col-lg-3">
-                <div class="shop-item">
-                  <div class="shop-item-image"><img src="assets/images/shop/product-11.jpg" alt="Accessories Pack"/>
-                    <div class="shop-item-detail"><a class="btn btn-round btn-b"><span class="icon-basket">Add To Cart</span></a></div>
-                  </div>
-                  <h4 class="shop-item-title font-alt"><a href="#">Accessories Pack</a></h4>£9.00
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-3 col-lg-3">
-                <div class="shop-item">
-                  <div class="shop-item-image"><img src="assets/images/shop/product-12.jpg" alt="Men’s Casual Pack"/>
-                    <div class="shop-item-detail"><a class="btn btn-round btn-b"><span class="icon-basket">Add To Cart</span></a></div>
-                  </div>
-                  <h4 class="shop-item-title font-alt"><a href="#">Men’s Casual Pack</a></h4>£12.00
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-3 col-lg-3">
-                <div class="shop-item">
-                  <div class="shop-item-image"><img src="assets/images/shop/product-13.jpg" alt="Men’s Garb"/>
-                    <div class="shop-item-detail"><a class="btn btn-round btn-b"><span class="icon-basket">Add To Cart</span></a></div>
-                  </div>
-                  <h4 class="shop-item-title font-alt"><a href="#">Men’s Garb</a></h4>£6.00
-                </div>
-              </div>
-              <div class="col-sm-6 col-md-3 col-lg-3">
-                <div class="shop-item">
-                  <div class="shop-item-image"><img src="assets/images/shop/product-14.jpg" alt="Cold Garb"/>
-                    <div class="shop-item-detail"><a class="btn btn-round btn-b"><span class="icon-basket">Add To Cart</span></a></div>
-                  </div>
-                  <h4 class="shop-item-title font-alt"><a href="#">Cold Garb</a></h4>£14.00
-                </div>
-              </div>
-            </div>
-          </div>
-        </section> -->
+
         <hr class="divider-w">
         <section class="module">
           <div class="container">
@@ -264,6 +245,8 @@
             </div>
           </div>
         </section>
+        
+        <!-- 풋영역 -->
         <div class="module-small bg-dark">
           <div class="container">
             <div class="row">

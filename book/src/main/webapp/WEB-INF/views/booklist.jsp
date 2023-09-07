@@ -57,6 +57,49 @@
     <!-- Main stylesheet and color file-->
     <link href="assets/css/style.css" rel="stylesheet">
     <link id="color-scheme" href="assets/css/colors/default.css" rel="stylesheet">
+    <link href="../css/booklist.css" rel="stylesheet">
+    <script type="text/javascript">
+    
+    window.onload = function() {
+   
+     //카테고리 선택하면 페이지 바로이동
+      var selectElement = document.querySelector("select[name='bkcate']");
+      var currentBkcate = getUrlParameter('bkcate');
+      if (currentBkcate) {
+        selectElement.value = currentBkcate;
+      }
+      
+      //카테고리 유지
+      var searchN = document.getElementById("searchN");
+      var searchNvalue = getUrlParameter('searchN');
+      if (searchNvalue) {
+    	  searchN.value = searchNvalue;
+      }
+      
+     //검색값 유지
+      var searchV = document.getElementById("searchV");
+      var searchVvalue = getUrlParameter('searchV');
+      if (searchVvalue) {
+    	  searchV.value = searchVvalue;
+      }
+      
+    };
+
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      var results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    }
+
+    function rePage(selectElement) {
+      var selectedValue = selectElement.value;
+        var url = './booklist?bkcate=' + selectedValue;
+        window.location.href = url;
+    }
+    
+
+    </script>
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
   <%@ include file="menu.jsp"%>
@@ -66,44 +109,54 @@
       </div>
 
       <div class="main">
-        <section class="module shop-page-header" data-background="../img/page/bp1.jpg">
-        </section>
-        
-        <!-- 필터 , 검색옵션 -->
-        <section class="module-small">
+       <%
+        String[] bpimgs = {"bp1.jpg", "bp2.jpg", "bp3.jpg", "bp4.jpg"};
+        %>
+       <hr class="divider-w">
           <div class="container">
-            <form class="row">
+            <div class="row" style="margin-top: 60px; margin-bottom: 15px">
+              <div class="owl-carousel text-center" data-items="1" data-pagination="false" data-navigation="false">
+             <% for (String bpimg : bpimgs) { %>
+                <div class="owl-item">
+                  <div class="col-sm-12">
+                    <img src="../img/page/<%= bpimg %>" alt="이미지"  style="border-radius:20px;"/>
+                  </div>
+                </div>
+               <% } %>
+              </div>
+            </div>
+          </div>
+        <hr class="divider-w">
+        <!-- 필터 , 검색옵션 -->
+        <section class="module-small" style="margin-top: -35px; margin-bottom: -35px;">
+          <div class="container">
+            <form action="./booklist" method="get" class="row">
               <div class="col-sm-4 mb-sm-20">
-                <select class="form-control">
-                  <option selected="selected">Default Sorting</option>
-                  <option>Popular</option>
-                  <option>Latest</option>
-                  <option>Average Price</option>
-                  <option>High Price</option>
-                  <option>Low Price</option>
+                <select class="form-control" name="bkcate" onchange="rePage(this)">
+                  <option selected="selected" value="0">전체장르</option>
+                  <option value="1">소설</option>
+                  <option value="2">에세이</option>
+                  <option value="3">자기개발</option>
                 </select>
               </div>
               <div class="col-sm-2 mb-sm-20">
-                <select class="form-control">
-                  <option selected="selected">Woman</option>
-                  <option>Man</option>
+                <select class="form-control" name="searchN" id="searchN">
+                  <option selected="selected" value="all">전체조건</option>
+                  <option value="name">책이름</option>
+                  <option value="write">저자</option>
                 </select>
               </div>
               <div class="col-sm-3 mb-sm-20">
-                <select class="form-control">
-                  <option selected="selected">All</option>
-                  <option>Coats</option>
-                  <option>Jackets</option>
-                  <option>Dresses</option>
-                  <option>Jumpsuits</option>
-                  <option>Tops</option>
-                  <option>Trousers</option>
-                </select>
+              <input class="form-control" type="text" name="searchV" id="searchV">
+              <%-- <input type="hidden" name="bkcate" value="${param.bkcate }" > --%>
               </div>
               <div class="col-sm-3">
-                <button class="btn btn-block btn-round btn-g" type="submit">Apply</button>
+                <button class="btn btn-block btn-round btn-g" type="submit">검색</button>
               </div>
             </form>
+          </div>
+          <div>
+           검색 결과 ${booklist[0].count }개의 책이 있음
           </div>
         </section>
         
@@ -115,14 +168,16 @@
               <c:forEach items="${booklist }" var="row">         
               <div class="col-sm-3 col-md-3 col-lg-3">
                 <div class="shop-item">
-                  <div class="shop-item-image"><img src="${row.bkimg}" alt="책이미지"/>
+                  <div class="shop-item-image"><img style="height: 418px;" src="${row.bkimg}" alt="책이미지"/><img class="zheart" src="../img/icon/zzheart.png"/>
                     <div class="shop-item-detail" ><a class="btn btn-round btn-b" href="./bookdetail?bkno=${row.bkno}">
                     상세보기</a><br><br>
                     <a class="btn btn-round btn-b" href="">
                     찜하기</a>
                     </div>
                   </div>
-                  <h3 class="shop-item-title font-alt"><a href="./bookdetail?bkno=${row.bkno}">${row.bkname}</a></h3><h6>${row.bkwrite}</h6><fmt:formatNumber value="${row.bkprice}" pattern="#,###"/>원
+                  <h3 class="shop-item-title font-alt"><a href="./bookdetail?bkno=${row.bkno}">${row.bkname}</a></h3>
+                  <a href="./booklist?searchN=write&searchV=${row.bkwrite }"><h6>${row.bkwrite}</h6></a>
+                  <fmt:formatNumber value="${row.bkprice}" pattern="#,###"/>원
                 </div>
               </div>
               </c:forEach>
@@ -134,6 +189,10 @@
             </div>
           </div>
         </section>
+        
+        <div id="booklist-container">
+         <!-- 책 목록이 여기에 동적으로 추가됩니다. -->
+        </div>
         
         <!-- 하단 풋 -->
         <div class="module-small bg-dark">

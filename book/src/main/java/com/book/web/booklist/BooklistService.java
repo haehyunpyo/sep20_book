@@ -12,8 +12,8 @@ public class BooklistService {
 	@Autowired
 	private BooklistDAO booklistDAO;
 
-	public List<BooklistDTO> booklist(int bkcate) {
-		return booklistDAO.booklist(bkcate);
+	public List<Map<String, Object>> booklist(Map<String, Object> map) {
+		return booklistDAO.booklist(map);
 	}
 
 	public Map<String, Object> bookdetail(int bkno) {
