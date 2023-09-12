@@ -31,7 +31,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="assets/images/favicons/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicons/favicon-16x16.png">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="assets/images/favicons/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="assets/images/favicons/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
@@ -61,19 +61,17 @@
     <script type="text/javascript">
 
 
-    var zHeart1 = false; // 초기 상태는 heart2.png 입니다.
+    var zHeart1 = false;
 
     function toggleImg() {
       var img = document.getElementById("zheart");
 
-      // 이미지 상태에 따라 다른 이미지로 교체합니다.
       if (zHeart1) {
-    	  img.src = "../img/icon/heart2.png"; // 원래 이미지로 변경
+    	  img.src = "../img/icon/heart2.png"; 
       } else {
-    	  img.src = "../img/icon/heart1.png"; // 다른 이미지로 변경
+    	  img.src = "../img/icon/heart1.png"; 
       }
 
-      // 상태를 토글합니다.
       zHeart1 = !zHeart1;
     }
     
@@ -90,7 +88,7 @@
         <section class="module">
           <div class="container">
             <div class="row"> 
-              <div class="col-sm-6 mb-sm-40"><a class="gallery" href="${bookdetail.bkimg }"><img src="${bookdetail.bkimg }" alt="책이미지"/></a>
+              <div class="col-sm-6 mb-sm-40"><a class="gallery" href="/img/bookimg/${bookdetail.bkimg }"><img src="/img/bookimg/${bookdetail.bkimg }" alt="책이미지"/></a>
               </div>
               <div class="col-sm-6">
                 <div class="row">
@@ -235,7 +233,7 @@
               <c:forEach items="${booktop }" var="row">
                 <div class="owl-item">
                   <div class="col-sm-12">
-                    <div class="ex-product"><a href="./bookdetail?bkno=${row.bkno}"><img src="${row.bkimg}" alt="Leather belt"/></a>
+                    <div class="ex-product"><a href="./bookdetail?bkno=${row.bkno}"><img src="/img/bookimg/${row.bkimg}" alt="Leather belt"/></a>
                       <h4 class="shop-item-title font-alt"><a href="./bookdetail?bkno=${row.bkno}">${row.bkname}</a></h4><fmt:formatNumber value="${row.bkprice}" pattern="#,###"/>원
                     </div>
                   </div>
@@ -321,7 +319,7 @@
           </div>
         </footer>
       </div>
-      <div class="scroll-up"><a href="#totop"><i class="fa fa-angle-double-up"></i></a></div>
+      <div class="scroll-up"><a href="#totop"><i class="fa  fa-chevron-up"></i></a></div>
     </main>
     <!--  
     JavaScripts

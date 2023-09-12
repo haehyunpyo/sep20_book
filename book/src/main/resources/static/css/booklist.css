@@ -19,3 +19,29 @@
 	margin-left: 158px;
 	
 }
+.rowPagin{
+	margin-left: 45%;
+}
+
+.pagination a {
+  border: 1px solid #eaeaea;
+  display: inline-block;
+  text-transform: uppercase;
+  text-align: center;
+  color: #999;
+  padding: 4px 12px;
+}
+
+.pagination a.active {
+  color: #9e9e9e;
+  border-color: #9e9e9e;
+}
+
+.pagination a:hover {
+  color: #9e9e9e;
+  border-color: #9e9e9e;
+}
+
+.pSize{
+	margin-bottom: 40px;
+}

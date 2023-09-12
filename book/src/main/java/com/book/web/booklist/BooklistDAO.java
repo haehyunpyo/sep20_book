@@ -14,6 +14,10 @@ public interface BooklistDAO {
 
 	List<BooklistDTO> booktop();
 
+	void bookWrite(Map<String, Object> map);
+
+	int bookCount(Map<String, Object> map);
+
 
 	
 }

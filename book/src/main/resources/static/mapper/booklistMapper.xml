@@ -2,53 +2,97 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.book.web.booklist.BooklistDAO">
 
-<select id="booklist" parameterType="Map" resultType="Map">
-  SELECT bkno, bkname, bkwrite, bkimg, bkprice, bkcate,
-  (
-   SELECT COUNT(*) FROM books
-  <where>
-  <if test="bkcate gt 0">AND bkcate = #{bkcate}</if>
-    <choose>
-       <when test="searchN == 'name'">
-           AND bkname LIKE CONCAT('%', #{searchV}, '%')
-       </when>
-       <when test="searchN == 'write'">
-           AND bkwrite LIKE CONCAT('%', #{searchV}, '%')
-       </when>
-    </choose>
-  </where>
-     
-  ) AS count
-  FROM books
-  <where>
-  <if test="bkcate gt 0">AND bkcate = #{bkcate}</if>
-    <choose>
-       <when test="searchN == 'all'">
-           AND bkname LIKE CONCAT('%', #{searchV}, '%') OR bkwrite LIKE CONCAT('%', #{searchV}, '%')
-       </when>
-       <when test="searchN == 'name'">
-           AND bkname LIKE CONCAT('%', #{searchV}, '%')
-       </when>
-       <when test="searchN == 'write'">
-           AND bkwrite LIKE CONCAT('%', #{searchV}, '%')
-       </when>
-    </choose>
-  </where>
-    ORDER BY bkno asc
-  
-</select>
+	<select id="booklist" parameterType="Map" resultType="Map">
+		SELECT bkno, bkname, bkwrite, bkimg, bkprice, bkcate,
+		(
+		SELECT COUNT(*)
+		FROM bookstest
+		<where>
+			<if test="bkcate gt 0">AND bkcate = #{bkcate}</if>
+			<choose>
+				<when test="searchN == 'all'">
+					AND bkname LIKE CONCAT('%', #{searchV}, '%') OR
+					bkwrite LIKE
+					CONCAT('%', #{searchV}, '%')
+				</when>
+				<when test="searchN == 'name'">
+					AND bkname LIKE CONCAT('%', #{searchV}, '%')
+				</when>
+				<when test="searchN == 'write'">
+					AND bkwrite LIKE CONCAT('%', #{searchV}, '%')
+				</when>
+			</choose>
+		</where>
+		) AS count
+		FROM bookstest
+		<where>
+			<if test="bkcate gt 0">AND bkcate = #{bkcate}</if>
+			<choose>
+				<when test="searchN == 'all'">
+					AND bkname LIKE CONCAT('%', #{searchV}, '%') OR
+					bkwrite LIKE
+					CONCAT('%', #{searchV}, '%')
+				</when>
+				<when test="searchN == 'name'">
+					AND bkname LIKE CONCAT('%', #{searchV}, '%')
+				</when>
+				<when test="searchN == 'write'">
+					AND bkwrite LIKE CONCAT('%', #{searchV}, '%')
+				</when>
+			</choose>
+		</where>
+		ORDER BY bkno asc
+		<if test="startRow >= 0">
+		LIMIT #{startRow}, #{pageSize}
+		</if>
+
+	</select>
+
+	<select id="bookCount" parameterType="Map" resultType="Integer">
+		SELECT COUNT(*) FROM bookstest
+		<where>
+			<if test="bkcate gt 0">AND bkcate = #{bkcate}</if>
+			<choose>
+				<when test="searchN == 'all'">
+					AND bkname LIKE CONCAT('%', #{searchV}, '%') OR
+					bkwrite LIKE
+					CONCAT('%', #{searchV}, '%')
+				</when>
+				<when test="searchN == 'name'">
+					AND bkname LIKE CONCAT('%', #{searchV}, '%')
+				</when>
+				<when test="searchN == 'write'">
+					AND bkwrite LIKE CONCAT('%', #{searchV}, '%')
+				</when>
+			</choose>
+		</where>
+	</select>
 
 
+	<select id="bookdetail" parameterType="Integer" resultType="Map">
+		SELECT *
+		FROM bookstest WHERE bkno=#{bkno }
+	</select>
 
-<select id="bookdetail" parameterType="Integer" resultType="Map">
-  SELECT *
-  FROM books WHERE bkno=#{bkno }
-</select>
+	<select id="booktop" resultType="BooklistDTO">
+		SELECT *
+		FROM bookstest
+		ORDER BY bcnt
+		DESC
+		LIMIT 1, 10
+	</select>
 
-<select id="booktop" resultType="BooklistDTO">
-  SELECT *
-  FROM books 
-  ORDER BY bcnt DESC
-</select>
+
+	<insert id="bookWrite" parameterType="Map">
+		INSERT INTO bookstest (bkname, bkwrite, bkscontent, bkcontent,
+		bkprice, bstock , rstock, bkcate
+		<if test="upFile != null and upFile != ''">, bkimg</if>
+		)
+		VALUES (#{name}, #{write}, #{scontent}, #{content}, #{price},
+		#{bstock}, #{rstock}, #{cate}
+		<if test="upFile != null and upFile != ''">, #{upFile}</if>
+		)
+	</insert>
+
 
 </mapper>

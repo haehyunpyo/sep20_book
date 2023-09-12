@@ -24,6 +24,18 @@ public class BooklistService {
 		return booklistDAO.booktop();
 	}
 
+	public void bookWrite(Map<String, Object> map) {
+		booklistDAO.bookWrite(map);
+		
+	}
+
+	public int getTotalBookCount(Map<String, Object> map) {
+		return booklistDAO.bookCount(map);
+	}
+
+	
+	
+	
 	
 	
 }

@@ -564,19 +564,19 @@ a,
 .scroll-up {
   position: fixed;
   display: none;
-  bottom: 7px;
-  right: 7px;
+  bottom: 50px;
+  right: 20px;
   z-index: 999;
 }
 
 .scroll-up a {
   background: #fff;
   display: block;
-  height: 28px;
-  width: 28px;
+  height: 50px;
+  width: 50px;
   text-align: center;
   line-height: 28px;
-  font-size: 14px;
+  font-size: 40px;
   color: #000;
   opacity: 0.6;
   border-radius: 2px;
@@ -1175,7 +1175,7 @@ General Styles - Owlcarousel
 /*--------------------------------------------------------------
 	Preloader
 --------------------------------------------------------------*/
-.page-loader {
+/* .page-loader {
   position: fixed;
   background: #000;
   bottom: 0;
@@ -1211,7 +1211,7 @@ General Styles - Owlcarousel
   border-radius: 50%;
   width: 46px;
   height: 46px;
-}
+} */
 
 @-webkit-keyframes load {
   0% {
@@ -2239,7 +2239,8 @@ Google map
 }
 
 .pagination a.active {
-  border-color: #CACACA;
+  color: #9e9e9e;
+  border-color: #9e9e9e;
 }
 
 /*--------------------------------------------------------------
@@ -2546,7 +2547,7 @@ Google map
 	Exclusive products
 ------------------------------------------------------------------- */
 .ex-product {
-  opacity: .7;
+  opacity: .8;
   transition: all 0.4s ease-in-out 0s;
 }
 
