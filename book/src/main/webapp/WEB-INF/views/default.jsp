@@ -69,17 +69,17 @@
     <main>
       <div class="main">
        <hr class="divider-w">
-          <div class="container">
-
-
-          </div>
-        <hr class="divider-w">
-        
         <section class="module-small">
           <div class="container">
 
           </div>
         </section>
+          <div class="container">
+               <h1>메인</h1>
+              
+          </div>
+        <hr class="divider-w">
+        
         
         <hr class="divider-w">
         

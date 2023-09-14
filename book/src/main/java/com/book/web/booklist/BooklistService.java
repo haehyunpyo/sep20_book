@@ -33,6 +33,14 @@ public class BooklistService {
 		return booklistDAO.bookCount(map);
 	}
 
+	public List<BooklistDTO> bookrtop() {
+		return booklistDAO.bookrtop();
+	}
+
+	public void bookWrite2(Map<String, Object> map) {
+		booklistDAO.bookWrite2(map);
+	}
+
 	
 	
 	

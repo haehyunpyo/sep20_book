@@ -83,87 +83,83 @@
 <link href="assets/css/style.css" rel="stylesheet">
 <link id="color-scheme" href="assets/css/colors/default.css"
 	rel="stylesheet">
-<!-- <link href="../css/index.css" rel="stylesheet"> -->
+
+<link href="../css/main.css" rel="stylesheet">
+
 <script type="text/javascript">
 	
 </script>
 <style type="text/css">
-.bestnumber {
-	position: absolute;
-	font-size: 35px;
-	top: 0px;
-	left: 25px;
-	color: white;
-	text-shadow: -2px 0px black, 0px 2px black, 2px 0px black, 0px -2px black;
-	opacity: 90%;
-}
 
-.banner_title{
-	font-size: 35px;
-	top: 0px;
-	left: 25px;
-}
 
 </style>
 <!-- --------------------------------------------------- 상단 ---------------------------------------------------------------- -->
 
 </head>
-<body data-spy="scroll" data-target=".onpage-navigation"
-	data-offset="60">
+<body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
 	<%@ include file="menu.jsp"%>
 	<main>
 		<div class="main">
-			<section class="module-small">
+			<section class="module-small" style="margin-bottom: -3%">
 			</section>
-
-
-
-
 			<div class="welcome_banner_inner">
 				<div class="swiper-container">
 					<ul class="swiper-wrapper">
 						<li class="swiper-slide" style="margin-left: 13%; width: 90%;">
-							     <%
-                                  String[] indeximgs = { "i3.jpg", "i4.jpg" };
-                                  %>
-							<div class="owl-carousel text-center" data-items="1"
-								data-pagination="false" data-navigation="false">
-								<%
-								for (String indeximg : indeximgs) {
-								%>
-								<div class="owl-item">
-							<span class="banner_title">
-								최태성 작가 랜선 팬사인회 wirh 파비앙 <br> 9월 12일(화) 저녁 7시
-							</span> 
+							<div class="owl-carousel" data-items="1" data-pagination="false" data-navigation="false">
+						<c:forEach items="${bannerlist }" var="row">
+							  <div class="owl-item">
+							   <span class="banner_title">
+								${row.batext }
+							   </span> 
 									<div class="col-sm-12">
-										<img src="../img/page/<%=indeximg%>" alt="이미지"/>
+										<img src="../img/banner/${row.baimg }" alt="배너이미지"/>
 									</div>
 								</div>
-								<%
-								}
-								%>
+							</c:forEach>
 							</div>
 						</li>
 					</ul>
 				</div>
 			</div>
-
-
 			<hr class="divider-w">
+<%-- 			<section class="module-small">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-6 col-sm-offset-3">
+							<h2 class="module-title font-alt">베스트셀러</h2>
+						</div>
+					</div>
+					<div class="row">
+						<div class="owl-carousel text-center" data-items="5"
+							data-pagination="false" data-navigation="false">
+							<c:forEach items="${booktop }" var="row" varStatus="loop">
+								<div class="owl-item">
+									<div class="col-sm-12">
+										<div class="ex-product">
+											<span class="bestnumber">${loop.index + 1}</span> <a
+												href="./bookdetail?bkno=${row.bkno}"><img
+												src="/img/bookimg/${row.bkimg}" alt="Leather belt" /></a>
+											<h4 class="shop-item-title font-alt">
+												<a href="./bookdetail?bkno=${row.bkno}">${row.bkname}</a>
+											</h4>
+											<fmt:formatNumber value="${row.bkprice}" pattern="#,###" />
+											원
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+					</div>
+				</div>
+			</section> --%>
 			
-	     <section class="module-small">
-          <div class="container" style="width: 100%">
+	    <section class="module-small">
+          <div class="container" style="width: 95%">
             <div class="row">
   <!--  ----------- 왼쪽 사이드바 ------------------------------------------------------------------ -->
-              <div class="col-sm-1 col-md-1 sidebar">
-                <div class="widget">
-                  <form role="form">
-                    <div class="search-box">
-                      <input class="form-control" type="text" placeholder="Search..."/>
-                      <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
-                    </div>
-                  </form>
-                </div>
+              <div class="col-sm-1 col-md-1 sidebar" style="background-color: #f5faf2; border-radius:20px;">
+
                 <div class="widget">
                   <h5 class="widget-title font-alt">Blog Categories</h5>
                   <ul class="icon-list">
@@ -227,17 +223,24 @@
                 </div>
               </div>
  <!--  ----------- 중앙 본문 ------------------------------------------------------------------ -->
-              <div class="col-sm-8 col-sm-offset-1">
-                <div class="post">
-                				<div class="container">
+              <div class="col-sm-8 col-sm-offset-1" >
+                  <div class="container">
 					<div class="row">
-						<div class="col-sm-6 col-sm-offset-3">
-							<h2 class="module-title font-alt">베스트셀러</h2>
+					   <div class="col-sm-12">
+					   <img src="../img/page/ad1.png"  style="width:560px; height: 170px; border-radius:20px;"/>
+					   <img src="../img/page/ad2.png"  style="width:560px; height: 170px; border-radius:20px; margin-left: 10px;"/>
+					   </div>			   
+					</div>
+					
+					<div class="row"  style="background-color: #f2f2f2; border-radius:20px; margin-top: 5%;">
+					<div class="row" style="width: 90%; margin-left: 50px;">
+					<div class="row">
+						<div class="col-sm-6">
+							<h3 class="best-title" style="margin-top: 35px;margin-bottom: 35px;">이달의 베스트셀러</h3>
 						</div>
 					</div>
 					<div class="row">
-						<div class="owl-carousel text-center" data-items="5"
-							data-pagination="false" data-navigation="false">
+						<div class="owl-carousel text-center" data-items="5" data-pagination="false" data-navigation="false">
 							<c:forEach items="${booktop }" var="row" varStatus="loop">
 								<div class="owl-item">
 									<div class="col-sm-12">
@@ -255,17 +258,72 @@
 								</div>
 							</c:forEach>
 						</div>
+						</div>
 					</div>
-				</div>
-                
-
+					</div>
+					
+					<div class="row"  style="background-color: #f2f2f2; border-radius:20px; margin-top: 5%;">
+					<div class="row" style="width: 90%; margin-left: 50px;">
+					<div class="row">
+						<div class="col-sm-6">
+							<h3 class="best-title" style="margin-top: 35px;margin-bottom: 35px;">급상승! 많이 보고 있는 책 </h3>
+						</div>
+					</div>
+					<div class="row">
+						<div class="owl-carousel text-center" data-items="5" data-pagination="false" data-navigation="false">
+							<c:forEach items="${bookrtop }" var="row" varStatus="loop">
+								<div class="owl-item">
+									<div class="col-sm-12">
+										<div class="ex-product">
+											<span class="bestnumber">${loop.index + 1}</span> <a
+												href="./bookdetail?bkno=${row.bkno}"><img
+												src="/img/bookimg/${row.bkimg}" alt="Leather belt" /></a>
+											<h4 class="shop-item-title font-alt">
+												<a href="./bookdetail?bkno=${row.bkno}">${row.bkname}</a>
+											</h4>
+											<fmt:formatNumber value="${row.bkprice}" pattern="#,###" />
+											원
+										</div>
+									</div>
+								</div>
+							</c:forEach>
+						</div>
+						</div>
+					</div>
+					</div>
+					
+					
+				  <div class="row"  style="background-color: #f5faf2; border-radius:20px; margin-top: 5%;">
+					<div class="row" style="width: 90%; margin-left: 50px;">
+					<div class="row">
+						<div class="col-sm-12">
+							<h3 class="best-title" style="margin-top: 35px;margin-bottom: 35px;">안녕하세요 망곰님 대여중인 책이 있습니다.</h3>
+						</div>
+					</div>
+					<div class="row">
+											<div class="shop-item">
+												<div class="shop-item-image">
+													<img style="height: 418px;" src="/img/bookimg/bk5.jpg"/>
+													<div class="shop-item-detail">
+														<a class="btn btn-round btn-b"
+															href="./bookdetail?bkno=5"> 상세보기</a><br>
+													</div>
+												</div>
+												<h3 class="shop-item-title font-alt"><a href="./bookdetail?bkno=5">1Q84 1</a>
+												</h3>
+												<a href="./booklist?searchN=write&searchV=무라카미 하루키"><h6>무라카미 하루키</h6></a>
+											</div>
+										</div>
+					</div>
+					</div>
+					
+					
+					
+				 </div>
                 </div>
-
-                <div class="pagination font-alt"><a href="#"><i class="fa fa-angle-left"></i></a><a class="active" href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#"><i class="fa fa-angle-right"></i></a></div>
-              </div>
               
    <!--  ----------- 오른쪽 사이드바 ------------------------------------------------------------------ -->
-              <div class="col-sm-1 col-md-1 col-md-offset-1 sidebar">
+              <div class="col-sm-1 col-md-1 col-md-offset-1 sidebar" style="background-color: #f5faf2; border-radius:20px;">
                 <div class="widget">
                   <form role="form">
                     <div class="search-box">

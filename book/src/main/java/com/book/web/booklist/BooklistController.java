@@ -11,6 +11,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
@@ -26,6 +27,8 @@ public class BooklistController {
 	
 	@Autowired
 	private BooklistService booklistService; 
+	@Autowired
+    private JdbcTemplate jdbcTemplate;
 
 	@GetMapping("/booklist")
 	public String list(Model model, 
@@ -92,6 +95,10 @@ public class BooklistController {
 		List<BooklistDTO> booktop = booklistService.booktop();
 		model.addAttribute("booktop", booktop);
 		
+		//베스트대여
+		List<BooklistDTO> bookrtop = booklistService.bookrtop();
+		model.addAttribute("bookrtop", bookrtop);
+		
 		return "bookdetail";
 	}
 	
@@ -122,14 +129,20 @@ public class BooklistController {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 			// #{upFile}, #{realFile}
 			//map.put("upFile", upfile.getOriginalFilename());
 			map.put("upFile", realFileName);
 		}
+		booklistService.bookWrite(map);
+
+		int bkno = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
+		
+		
+		map.put("mid", "pororo");
+		map.put("bkno", bkno);
+		booklistService.bookWrite2(map);
 
 		//map.put("mno", 4);// 로그인한 사람의 아이디를 담아주세요
-	    booklistService.bookWrite(map);
 		return "redirect:/booknotice";
 	}
 	

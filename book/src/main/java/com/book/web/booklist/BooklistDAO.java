@@ -18,6 +18,10 @@ public interface BooklistDAO {
 
 	int bookCount(Map<String, Object> map);
 
+	List<BooklistDTO> bookrtop();
+
+	void bookWrite2(Map<String, Object> map);
+
 
 	
 }
