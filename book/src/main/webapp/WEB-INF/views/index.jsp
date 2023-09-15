@@ -81,30 +81,62 @@
 	rel="stylesheet">
 <!-- Main stylesheet and color file-->
 <link href="assets/css/style.css" rel="stylesheet">
-<link id="color-scheme" href="assets/css/colors/default.css"
-	rel="stylesheet">
-<!-- <link href="../css/index.css" rel="stylesheet"> -->
+<link id="color-scheme" href="assets/css/colors/default.css" rel="stylesheet">
+
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script src="./js//jquery-3.7.0.min.js"></script>
 <script type="text/javascript">
+
+function kakaoLogout(){
+	location.href="https://kauth.kakao.com/oauth/logout?client_id=3ecca13d973c6d11e752a114a1e14922&logout_redirect_uri=http://localhost/logout/kakao";
+}
+
+	$(function(){
 	
+		// 로그아웃_자동로그인 해제
+		let sid = getCookie("SuserID");
+		let setS = getCookie("setS");
+		
+		$("#logoutbtn").click(function(){
+			delCookie("SuserID");
+			delCookie("setS");
+			Logout();
+		});
+		
+		// 쿠키 삭제
+		function delCookie(cookieName){
+			let expireDate = new Date();
+			expireDate.setDate(expireDate.getDate() - 1);
+			document.cookie = cookieName +"="+ "; expires="+ expireDate.toUTCString()
+		}
+		
+		
+		// 쿠키가져오기
+		function getCookie(cookieName){
+			let cname, cvalue;
+			let val = document.cookie.split(";");
+			for(let i = 0; i < val.length; i++){
+				cname = val[i].substr(0, val[i].indexOf("="));
+				cvalue = val[i].substr(val[i].indexOf("=")+1);
+				cname = cname.trim();
+				
+				if(cname == cookieName){
+					return cvalue;
+				}
+			}
+		}
+		
+		function Logout(){
+			window.location.href = "/logout";
+		}
+		
+		
+		
+	});
+
 </script>
-<style type="text/css">
-.bestnumber {
-	position: absolute;
-	font-size: 35px;
-	top: 0px;
-	left: 25px;
-	color: white;
-	text-shadow: -2px 0px black, 0px 2px black, 2px 0px black, 0px -2px black;
-	opacity: 90%;
-}
 
-.banner_title{
-	font-size: 35px;
-	top: 0px;
-	left: 25px;
-}
 
-</style>
 <!-- --------------------------------------------------- 상단 ---------------------------------------------------------------- -->
 
 </head>
@@ -114,229 +146,31 @@
 	<main>
 		<div class="main">
 			<section class="module-small">
+			<br><br><br><br><br><br><br><br><br>
+	<h1>첫 화면</h1>
+	
+		<div>
+			<button type="submit" onclick="kakaoLogout()">
+				카카오계정 로그아웃
+			</button>
+			<button type="button" id="logoutbtn">
+				로그아웃
+			</button>
+		</div>
+		
+	 <div>
+         <c:choose>
+            <c:when test="${sessionScope.mid ne null}"> id : ${sessionScope.mid} _ 로그인완</c:when>
+            <c:otherwise>로그아웃상태 </c:otherwise>
+         </c:choose>
+      </div>
 			</section>
-
-
-
-
-			<div class="welcome_banner_inner">
-				<div class="swiper-container">
-					<ul class="swiper-wrapper">
-						<li class="swiper-slide" style="margin-left: 13%; width: 90%;">
-							     <%
-                                  String[] indeximgs = { "i3.jpg", "i4.jpg" };
-                                  %>
-							<div class="owl-carousel text-center" data-items="1"
-								data-pagination="false" data-navigation="false">
-								<%
-								for (String indeximg : indeximgs) {
-								%>
-								<div class="owl-item">
-							<span class="banner_title">
-								최태성 작가 랜선 팬사인회 wirh 파비앙 <br> 9월 12일(화) 저녁 7시
-							</span> 
-									<div class="col-sm-12">
-										<img src="../img/page/<%=indeximg%>" alt="이미지"/>
-									</div>
-								</div>
-								<%
-								}
-								%>
-							</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-
-
 			<hr class="divider-w">
 			
 	     <section class="module-small">
           <div class="container" style="width: 100%">
-            <div class="row">
-  <!--  ----------- 왼쪽 사이드바 ------------------------------------------------------------------ -->
-              <div class="col-sm-1 col-md-1 sidebar">
-                <div class="widget">
-                  <form role="form">
-                    <div class="search-box">
-                      <input class="form-control" type="text" placeholder="Search..."/>
-                      <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
-                    </div>
-                  </form>
-                </div>
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Blog Categories</h5>
-                  <ul class="icon-list">
-                    <li><a href="#">Photography - 7</a></li>
-                    <li><a href="#">Web Design - 3</a></li>
-                    <li><a href="#">Illustration - 12</a></li>
-                    <li><a href="#">Marketing - 1</a></li>
-                    <li><a href="#">Wordpress - 16</a></li>
-                  </ul>
-                </div>
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Popular Posts</h5>
-                  <ul class="widget-posts">
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="assets/images/rp-1.jpg" alt="Post Thumbnail"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title"><a href="#">Designer Desk Essentials</a></div>
-                        <div class="widget-posts-meta">23 january</div>
-                      </div>
-                    </li>
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="assets/images/rp-2.jpg" alt="Post Thumbnail"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title"><a href="#">Realistic Business Card Mockup</a></div>
-                        <div class="widget-posts-meta">15 February</div>
-                      </div>
-                    </li>
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="assets/images/rp-3.jpg" alt="Post Thumbnail"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title"><a href="#">Eco bag Mockup</a></div>
-                        <div class="widget-posts-meta">21 February</div>
-                      </div>
-                    </li>
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="assets/images/rp-4.jpg" alt="Post Thumbnail"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title"><a href="#">Bottle Mockup</a></div>
-                        <div class="widget-posts-meta">2 March</div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Tag</h5>
-                  <div class="tags font-serif"><a href="#" rel="tag">Blog</a><a href="#" rel="tag">Photo</a><a href="#" rel="tag">Video</a><a href="#" rel="tag">Image</a><a href="#" rel="tag">Minimal</a><a href="#" rel="tag">Post</a><a href="#" rel="tag">Theme</a><a href="#" rel="tag">Ideas</a><a href="#" rel="tag">Tags</a><a href="#" rel="tag">Bootstrap</a><a href="#" rel="tag">Popular</a><a href="#" rel="tag">English</a>
-                  </div>
-                </div>
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Text</h5>The languages only differ in their grammar, their pronunciation and their most common words. Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators.
-                </div>
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Recent Comments</h5>
-                  <ul class="icon-list">
-                    <li>Maria on <a href="#">Designer Desk Essentials</a></li>
-                    <li>John on <a href="#">Realistic Business Card Mockup</a></li>
-                    <li>Andy on <a href="#">Eco bag Mockup</a></li>
-                    <li>Jack on <a href="#">Bottle Mockup</a></li>
-                    <li>Mark on <a href="#">Our trip to the Alps</a></li>
-                  </ul>
-                </div>
-              </div>
- <!--  ----------- 중앙 본문 ------------------------------------------------------------------ -->
-              <div class="col-sm-8 col-sm-offset-1">
-                <div class="post">
-                				<div class="container">
-					<div class="row">
-						<div class="col-sm-6 col-sm-offset-3">
-							<h2 class="module-title font-alt">베스트셀러</h2>
-						</div>
-					</div>
-					<div class="row">
-						<div class="owl-carousel text-center" data-items="5"
-							data-pagination="false" data-navigation="false">
-							<c:forEach items="${booktop }" var="row" varStatus="loop">
-								<div class="owl-item">
-									<div class="col-sm-12">
-										<div class="ex-product">
-											<span class="bestnumber">${loop.index + 1}</span> <a
-												href="./bookdetail?bkno=${row.bkno}"><img
-												src="/img/bookimg/${row.bkimg}" alt="Leather belt" /></a>
-											<h4 class="shop-item-title font-alt">
-												<a href="./bookdetail?bkno=${row.bkno}">${row.bkname}</a>
-											</h4>
-											<fmt:formatNumber value="${row.bkprice}" pattern="#,###" />
-											원
-										</div>
-									</div>
-								</div>
-							</c:forEach>
-						</div>
-					</div>
-				</div>
-                
-
-                </div>
-
-                <div class="pagination font-alt"><a href="#"><i class="fa fa-angle-left"></i></a><a class="active" href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">4</a><a href="#"><i class="fa fa-angle-right"></i></a></div>
-              </div>
-              
-   <!--  ----------- 오른쪽 사이드바 ------------------------------------------------------------------ -->
-              <div class="col-sm-1 col-md-1 col-md-offset-1 sidebar">
-                <div class="widget">
-                  <form role="form">
-                    <div class="search-box">
-                      <input class="form-control" type="text" placeholder="Search..."/>
-                      <button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
-                    </div>
-                  </form>
-                </div>
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Blog Categories</h5>
-                  <ul class="icon-list">
-                    <li><a href="#">Photography - 7</a></li>
-                    <li><a href="#">Web Design - 3</a></li>
-                    <li><a href="#">Illustration - 12</a></li>
-                    <li><a href="#">Marketing - 1</a></li>
-                    <li><a href="#">Wordpress - 16</a></li>
-                  </ul>
-                </div>
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Popular Posts</h5>
-                  <ul class="widget-posts">
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="assets/images/rp-1.jpg" alt="Post Thumbnail"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title"><a href="#">Designer Desk Essentials</a></div>
-                        <div class="widget-posts-meta">23 january</div>
-                      </div>
-                    </li>
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="assets/images/rp-2.jpg" alt="Post Thumbnail"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title"><a href="#">Realistic Business Card Mockup</a></div>
-                        <div class="widget-posts-meta">15 February</div>
-                      </div>
-                    </li>
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="assets/images/rp-3.jpg" alt="Post Thumbnail"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title"><a href="#">Eco bag Mockup</a></div>
-                        <div class="widget-posts-meta">21 February</div>
-                      </div>
-                    </li>
-                    <li class="clearfix">
-                      <div class="widget-posts-image"><a href="#"><img src="assets/images/rp-4.jpg" alt="Post Thumbnail"/></a></div>
-                      <div class="widget-posts-body">
-                        <div class="widget-posts-title"><a href="#">Bottle Mockup</a></div>
-                        <div class="widget-posts-meta">2 March</div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Tag</h5>
-                  <div class="tags font-serif"><a href="#" rel="tag">Blog</a><a href="#" rel="tag">Photo</a><a href="#" rel="tag">Video</a><a href="#" rel="tag">Image</a><a href="#" rel="tag">Minimal</a><a href="#" rel="tag">Post</a><a href="#" rel="tag">Theme</a><a href="#" rel="tag">Ideas</a><a href="#" rel="tag">Tags</a><a href="#" rel="tag">Bootstrap</a><a href="#" rel="tag">Popular</a><a href="#" rel="tag">English</a>
-                  </div>
-                </div>
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Text</h5>The languages only differ in their grammar, their pronunciation and their most common words. Everyone realizes why a new common language would be desirable: one could refuse to pay expensive translators.
-                </div>
-                <div class="widget">
-                  <h5 class="widget-title font-alt">Recent Comments</h5>
-                  <ul class="icon-list">
-                    <li>Maria on <a href="#">Designer Desk Essentials</a></li>
-                    <li>John on <a href="#">Realistic Business Card Mockup</a></li>
-                    <li>Andy on <a href="#">Eco bag Mockup</a></li>
-                    <li>Jack on <a href="#">Bottle Mockup</a></li>
-                    <li>Mark on <a href="#">Our trip to the Alps</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            
+            
             </div>
           </section>
 

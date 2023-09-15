@@ -58,6 +58,9 @@
     <link href="assets/css/style.css" rel="stylesheet">
     <link id="color-scheme" href="assets/css/colors/default.css" rel="stylesheet">
     <link href="../css/booklist.css" rel="stylesheet">
+    <style type="text/css">
+    
+    </style>
     <script type="text/javascript">
 
     window.onload = function() {
@@ -99,18 +102,15 @@
       return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
     }
     
-    
+    //페이징
     function pageSizeSelect(selectElement) {
     	  var pagesizesele = selectElement.value;
     	  var currentURL = window.location.href;
     	  var newURL;
 
-    	  // 현재 URL에 이미 pageSize 매개변수가 있는지 확인
     	  if (currentURL.includes('pageSize=')) {
-    	    // 이미 pageSize 매개변수가 있는 경우 업데이트
     	    newURL = currentURL.replace(/(pageSize=)[^\&]+/, 'pageSize=' + pagesizesele);
     	  } else {
-    	    // pageSize 매개변수가 없는 경우 추가
     	    var separator = currentURL.includes('?') ? '&' : '?';
     	    newURL = currentURL + separator + 'pageSize=' + pagesizesele;
     	  }
@@ -126,24 +126,21 @@
     
     
     function addPageToURL(pageNumber) {
-    	  // 현재 URL 가져오기
+    	
     	  var currentURL = window.location.href;
-
-    	  // 현재 URL에 이미 page 매개변수가 있는지 확인
+    	  
     	  var hasPageParam = currentURL.includes('page=');
 
-    	  // 페이지 번호를 추가 또는 업데이트
     	  if (hasPageParam) {
-    	    // 이미 page 매개변수가 있는 경우 업데이트
     	    var updatedURL = currentURL.replace(/(page=)[^\&]+/, 'page=' + pageNumber);
     	    window.location.href = updatedURL;
     	  } else {
-    	    // page 매개변수가 없는 경우 추가
     	    var separator = currentURL.includes('?') ? '&' : '?';
     	    var newURL = currentURL + separator + 'page=' + pageNumber;
     	    window.location.href = newURL;
     	  }
     	}
+    
     </script>
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
@@ -203,7 +200,6 @@
         <!-- 본문 책리스트 -->
  
         <section class="module-small">
-        
           <div class="container" style="width: 100%">
               <div class="col-sm-1 col-md-1 sidebar">
                 <div class="pSize">
@@ -223,7 +219,7 @@
                     <li><a href="./booklist?bkcate=3">자기개발</a></li>
                   </ul>
                 </div>
-                <div class="widget">
+<%--                 <div class="widget">
                   <h5 class="widget-title font-alt">최근본 책</h5>
                   <ul class="widget-posts">
                   <c:forEach items="${booktop }" var="list"> 
@@ -236,7 +232,7 @@
                     </li>
                     </c:forEach>
                   </ul>
-                </div>
+                </div> --%>
               </div>
 
              <div class="col-sm-8 col-sm-offset-1">
@@ -247,10 +243,12 @@
               <c:forEach items="${booklist }" var="row">         
               <div class="col-sm-3 col-md-3 col-lg-3">
                 <div class="shop-item">
-                  <div class="shop-item-image"><img style="height: 418px;" src="/img/bookimg/${row.bkimg}" alt="책이미지"/><img class="zheart" src="../img/icon/zzheart.png"/>
+                  <div class="shop-item-image">
+                  <img style="height: 418px;" src="/img/bookimg/${row.bkimg}" alt="책이미지"/>
+                  <img class="zheart" id="zheart-${row.bkno}" src="../img/icon/zzheart.png" data-img-bkno="${row.bkno}" style="display: none"/>
                     <div class="shop-item-detail" ><a class="btn btn-round btn-b" href="./bookdetail?bkno=${row.bkno}">
                     상세보기</a><br><br>
-                    <a class="btn btn-round btn-b" href="">
+                    <a class="btn btn-round btn-b toggleheart" id="toggleheart-${row.bkno}" data-bkno="${row.bkno}">
                     찜하기</a>
                     </div>
                   </div>
@@ -373,11 +371,70 @@
         </footer>
       </div>
       <div class="scroll-up"><a href="#totop"><i class="fa  fa-chevron-up"></i></a></div>
+ 
     </main>
     <!--  
     JavaScripts
     =============================================
     -->
+    <script type="text/javascript">
+    	
+    	document.addEventListener("DOMContentLoaded", function () {
+    	    const likeButtons = document.querySelectorAll("[data-bkno]");
+    	    const zzimBookNumbers = ${zzimBooklist};
+
+    	    likeButtons.forEach(function (button) {
+    	        const bkno = button.getAttribute("data-bkno");
+
+    	        if (zzimBookNumbers.includes(parseInt(bkno))) {
+    	        	const heartImage = document.querySelector('[data-img-bkno="'+bkno+'"]');
+    	            heartImage.style.display = "inline";
+    	        }
+
+    	        button.addEventListener("click", function (event) {
+    	            event.preventDefault();
+
+    	             const bkno = button.getAttribute("data-bkno");
+    	             const heartImage = document.querySelector('[data-img-bkno="'+bkno+'"]');
+
+    	            if (heartImage) {
+    	                if (heartImage.style.display === "none" || heartImage.style.display === "") {
+    	                    heartImage.style.display = "inline";
+    	                    sendAjaxRequest(bkno, "INSERT");
+    	                } else {
+    	                    heartImage.style.display = "none";
+    	                    sendAjaxRequest(bkno, "DELETE");
+    	                }
+    	            }
+    	        });
+    	    });
+    	});
+    	
+
+    	function sendAjaxRequest(bkno, action) {
+    	    const xhr = new XMLHttpRequest();
+    	    const url = `/booklist`; 
+    	    
+    	    xhr.open("POST", url, true);
+    	    xhr.setRequestHeader("Content-Type", "application/json");
+    	    
+    	    const data = JSON.stringify({ bkno, action });
+
+    	    xhr.onreadystatechange = function () {
+    	        if (xhr.readyState === 4 && xhr.status === 200) {
+    	            const response = JSON.parse(xhr.responseText);
+    	            if (response.success) {
+    	                console.log(`찜하기 ${action} 성공`);
+    	            } else {
+    	                console.error(`찜하기 ${action} 실패`);
+    	            }
+    	        }
+    	    };
+    	    xhr.send(data);
+    	}
+    </script>
+
+
     <script src="../assets/lib/jquery/dist/jquery.js"></script>
     <script src="../assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../assets/lib/wow/dist/wow.js"></script>

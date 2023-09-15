@@ -60,16 +60,15 @@
     <link href="../css/bookdetail.css" rel="stylesheet">
     <script type="text/javascript">
 
-
     var zHeart1 = false;
 
     function toggleImg() {
       var img = document.getElementById("zheart");
 
       if (zHeart1) {
-    	  img.src = "../img/icon/heart2.png"; 
+    	  img.src = "../img/icon/heartOff.png"; 
       } else {
-    	  img.src = "../img/icon/heart1.png"; 
+    	  img.src = "../img/icon/heartOn.png"; 
       }
 
       zHeart1 = !zHeart1;
@@ -81,9 +80,6 @@
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
   <%@ include file="menu.jsp"%>
     <main>
-      <div class="page-loader">
-        <div class="loader">Loading...</div>
-      </div>
       <div class="main">
         <section class="module">
           <div class="container">
@@ -94,7 +90,7 @@
                 <div class="row">
                   <div class="col-sm-12">
                     <h1 class="product-title font-alt">${bookdetail.bkname }</h1>
-                    <img class="zheart" id="zheart" src="../img/icon/heart2.png" onclick="toggleImg()"/>
+                    <img class="zheart" id="zheart" src="../img/icon/heartOff.png" onclick="toggleImg()"/>
                   </div>
                   <div class="col-sm-12">
                     <h5 class="product-title font-alt">${bookdetail.bkwrite }</h5>
@@ -116,18 +112,31 @@
                     </div>
                   </div>
                 </div>
-                <div class="row mb-20">
-                  <ul class="nav nav-tabs font-alt" role="tablist">
-                  <li class="active"><a href="#buy" data-toggle="tab">구매</a></li>
-                  <li><a href="#trade" data-toggle="tab">대여</a></li>
-                </ul>
+                
+               <div class="row mb-20"> 
+                   <ul class="nav nav-tabs font-alt" role="tablist">
+                   <li class="active"><a href="#buy" data-toggle="tab">구매</a></li>
+                   <li><a href="#trade" data-toggle="tab">대여</a></li>
+                  </ul>
+                  
                 <div class="tab-content">
+                
                 <div class="tab-pane active" id="buy">
-                  <div class="col-sm-4 mb-sm-20">
-                    <input class="form-control input-lg" type="number" name="" value="1" max="40" min="1" required="required"/>
-                  </div>
-                  <div class="col-sm-8"><a class="btn btn-lg btn-block btn-round btn-b" href="#">장바구니 담기</a></div>
+                 <form action="./cart" method="post" id="form">
+                    <input type="hidden" name="bkimg" value="${bookdetail.bkimg }">
+                    <input type="hidden" name="price" value="${bookdetail.bkprice }">
+                    <input type="hidden" name="bkno" value="${bookdetail.bkno }">
+                    <textarea name="bkscontent" style=display:none>${bookdetail.bkscontent }</textarea> 
+                    
+                 <c:if test="${sessionScope.mid ne null }">
+                   <div class="col-sm-4 mb-sm-20">
+                     <input class="form-control input-lg" type="number" name="amount"  max="${detail.bstock }" min="1" required="required"/>
+                    </div>
+                   <div class="col-sm-8"><button class="btn btn-lg btn-block btn-round btn-b" type="submit">장바구니 담기</button></div>
+                  </c:if> 
+                 </form>
                 </div>
+                
                  <div class="tab-pane" id="trade">
                   <div class="col-sm-6 mb-sm-20">
                     대여일<input class="form-control input-lg" type="date" name="" value="1" max="40" min="1" required="required"/>
@@ -137,10 +146,9 @@
                   </div>
                     <div class="col-sm-12"><br><a class="btn btn-lg btn-block btn-round btn-b" href="#">대여하기</a></div>
                   </div>
-                </div>
-                
-                
-                </div>
+                  
+                </div> 
+                </div> 
                 <div class="row mb-20">
                   <div class="col-sm-12">
                     <div class="product_meta" >태그: <a href="./booklist?searchN=write&searchV=${bookdetail.bkwrite }" >#${bookdetail.bkwrite }</a>
@@ -149,6 +157,8 @@
                 </div>
               </div>
             </div>
+           <!--  </form> -->
+            
             <div class="row mt-70">
               <div class="col-sm-12">
                 <ul class="nav nav-tabs font-alt" role="tablist">
@@ -325,6 +335,61 @@
     JavaScripts
     =============================================
     -->
+       <script type="text/javascript">
+    	
+       var zHeart = document.getElementById("zheart");
+       var bkno = ${bookdetail.bkno}; // 현재 페이지의 bkno 값
+
+       // 페이지 로딩 시 찜 상태에 따라 하트 이미지 초기 설정
+       document.addEventListener("DOMContentLoaded", function () {
+           var zzimBookNumbers = ${zzimBooklist}; // 모델에서 전달한 찜한 책의 bkno 배열
+
+           if (zzimBookNumbers.includes(bkno)) {
+               zHeart.src = "../img/icon/heartOn.png";
+           } else {
+               zHeart.src = "../img/icon/heartOff.png";
+           }
+       });
+
+       // 하트 이미지 클릭 이벤트
+       zHeart.addEventListener("click", function () {
+           if (zHeart.src.includes("heartOff.png")) {
+               // 클릭 시 찜하기 (INSERT) AJAX 요청 실행
+               sendAjaxRequest(bkno, "INSERT");
+               zHeart.src = "../img/icon/heartOn.png"; // 이미지 변경
+           } else {
+               // 클릭 시 찜 취소 (DELETE) AJAX 요청 실행
+               sendAjaxRequest(bkno, "DELETE");
+               zHeart.src = "../img/icon/heartOff.png"; // 이미지 변경
+           }
+       });
+    	
+
+    	function sendAjaxRequest(bkno, action) {
+    	    const xhr = new XMLHttpRequest();
+    	    const url = `/bookdetail`; 
+    	    
+    	    xhr.open("POST", url, true);
+    	    xhr.setRequestHeader("Content-Type", "application/json");
+    	    
+    	    const data = JSON.stringify({ bkno, action });
+
+    	    xhr.onreadystatechange = function () {
+    	        if (xhr.readyState === 4 && xhr.status === 200) {
+    	            const response = JSON.parse(xhr.responseText);
+    	            if (response.success) {
+    	                console.log(`찜하기 ${action} 성공`);
+    	            } else {
+    	                console.error(`찜하기 ${action} 실패`);
+    	            }
+    	        }
+    	    };
+    	    xhr.send(data);
+    	}
+    </script>
+    
+    
+    
     <script src="assets/lib/jquery/dist/jquery.js"></script>
     <script src="assets/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="assets/lib/wow/dist/wow.js"></script>

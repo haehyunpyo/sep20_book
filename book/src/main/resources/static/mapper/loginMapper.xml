@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.book.web.login.LoginDAO">
+
+	<select id="login" parameterType="Map" resultType="Map">
+		SELECT count(*) as count, mid, mname
+		FROM members
+		WHERE mid=#{id} AND mpw=#{pw}
+	</select>
+
+	<select id="hasKakaoUser" parameterType="Map" resultType="Integer">
+		SELECT count(*)  
+		FROM members
+		WHERE memail=#{kemail} AND kakao=1
+	</select>
+	
+	<insert id="setKakaoUser" parameterType="Map">
+	 	INSERT INTO members (mid, memail, kakao)
+     	VALUES(#{kid} ,#{kemail}, 1)
+	</insert>
+	
+	<update id="autoCheck" parameterType="String">
+		UPDATE members
+		SET auto=1
+		WHERE mid=#{mid}
+	</update>
+
+	<select id="autoLogin" parameterType="String" resultType="Map">
+		SELECT count(*) as autocount, mid, mname
+		FROM members
+		WHERE mid=#{SuserID} AND auto=1
+	</select>
+
+</mapper>

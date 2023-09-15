@@ -155,8 +155,11 @@ function uncomma(str) {
                           </div>
                           <div class="col-sm-4">
                             <div class="form-group">
-                                 대여재고
-                               <input class="form-control" id=rdel type="number" name="rdel"  placeholder="재고"/>
+                                 대여가능여부
+                               <select class="form-control" name="rdel">
+					             <option selected="selected" value="0">대여가능</option>
+					             <option value="1">대여불가</option>
+				                </select>
                             </div>
                           </div>
                           <div class="col-sm-4">

@@ -155,7 +155,7 @@
 			</section> --%>
 			
 	    <section class="module-small">
-          <div class="container" style="width: 95%">
+          <div class="container" style="width: 98%">
             <div class="row">
   <!--  ----------- 왼쪽 사이드바 ------------------------------------------------------------------ -->
               <div class="col-sm-1 col-md-1 sidebar" style="background-color: #f5faf2; border-radius:20px;">
@@ -224,11 +224,11 @@
               </div>
  <!--  ----------- 중앙 본문 ------------------------------------------------------------------ -->
               <div class="col-sm-8 col-sm-offset-1" >
-                  <div class="container">
+              <div class="container">
 					<div class="row">
 					   <div class="col-sm-12">
 					   <img src="../img/page/ad1.png"  style="width:560px; height: 170px; border-radius:20px;"/>
-					   <img src="../img/page/ad2.png"  style="width:560px; height: 170px; border-radius:20px; margin-left: 10px;"/>
+					   <img src="../img/page/ad2.png"  style="width:560px; height: 170px; border-radius:20px; margin-left: 15px;"/>
 					   </div>			   
 					</div>
 					
@@ -291,6 +291,7 @@
 						</div>
 					</div>
 					</div>
+					</div>
 					
 					
 				  <div class="row"  style="background-color: #f5faf2; border-radius:20px; margin-top: 5%;">
@@ -319,7 +320,6 @@
 					
 					
 					
-				 </div>
                 </div>
               
    <!--  ----------- 오른쪽 사이드바 ------------------------------------------------------------------ -->
