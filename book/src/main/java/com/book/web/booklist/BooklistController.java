@@ -42,6 +42,7 @@ public class BooklistController {
 	public String booklist(Model model, 
 		@RequestParam(name = "bkcate", required = false, defaultValue = "0") int bkcate,
 		@RequestParam Map<String, Object> map,
+		HttpSession session,
 		@RequestParam(name = "page", defaultValue = "1") int page, // 현재 페이지
         @RequestParam(name = "pageSize", defaultValue = "8") int pageSize // 페이지 크기
 		){
@@ -86,7 +87,8 @@ public class BooklistController {
 	    
 	    
 	    // 찜한 책목록 불러오기
-	    List<Integer> zzimBooklist = zzimService.zzimBooklist();
+	    String mid = (String) session.getAttribute("mid");
+	    List<Integer> zzimBooklist = zzimService.zzimBooklist(mid);
 	    model.addAttribute("zzimBooklist", zzimBooklist);
 		
 		
@@ -95,7 +97,7 @@ public class BooklistController {
 	
 	
 	@GetMapping("/bookdetail")
-	public String bookdetail(@RequestParam("bkno") int bkno,Model model) {
+	public String bookdetail(@RequestParam("bkno") int bkno,Model model,HttpSession session) {
 		
 		//책 상세페이지
 		Map<String, Object> bookdetail = booklistService.bookdetail(bkno);
@@ -110,7 +112,8 @@ public class BooklistController {
 		model.addAttribute("bookrtop", bookrtop);
 		
 	    // 찜한 책목록 불러오기
-	    List<Integer> zzimBooklist = zzimService.zzimBooklist();
+	    String mid = (String) session.getAttribute("mid");
+	    List<Integer> zzimBooklist = zzimService.zzimBooklist(mid);
 	    model.addAttribute("zzimBooklist", zzimBooklist);
 		
 		return "bookdetail";
@@ -124,7 +127,7 @@ public class BooklistController {
 	
 	//책등록
 	@PostMapping("/bookWrite")
-	public String bookWrite(@RequestParam("upFile") MultipartFile upfile, @RequestParam Map<String, Object> map) {
+	public String bookWrite(@RequestParam("upFile") MultipartFile upfile, @RequestParam Map<String, Object> map,HttpSession session) {
 		if (!upfile.isEmpty()) {
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 					.getRequest();
@@ -153,7 +156,8 @@ public class BooklistController {
 
 		//bkno 가져오기
 		int bkno = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Integer.class);
-		map.put("mid", "pororo");
+		String mid = (String) session.getAttribute("mid");
+		map.put("mid", mid);
 		map.put("bkno", bkno);
 		booklistService.bookWrite2(map);
 

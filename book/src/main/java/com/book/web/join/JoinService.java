@@ -27,7 +27,6 @@ public class JoinService {
 	}
 
 	public int num(JoinDTO joinDTO) {
-		
 		return joinDAO.num(joinDTO);
 	}
 }

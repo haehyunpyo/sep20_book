@@ -21,11 +21,7 @@ public class JoinController {
 
 	@GetMapping("/join")
 	public String join() {
-		
-		
-	
-		
-	return "join"; 
+	  return "join"; 
 		}
 	
 
@@ -35,10 +31,7 @@ public class JoinController {
 	public String join(JoinDTO joinDTO) {
 		//System.out.println("jsp에서 오는 값 : " + joinDTO);
 		
-		
 		//System.out.println(joinDTO);
-		
-		
 		
 		int result = joinService.join(joinDTO);
 		//System.out.println(result);

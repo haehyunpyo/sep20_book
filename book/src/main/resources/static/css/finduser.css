@@ -1,0 +1,80 @@
+@charset "UTF-8";
+
+body{
+	margin: 0;
+	padding: 0;
+}
+
+#tabBox{
+	margin: 100px 10px 0 10px;
+}
+
+#fContainer{
+	margin-left: 500px; 
+}
+
+#tabBox{
+	height: 50%;
+	text-align: center;
+}
+
+#nav{
+	border-bottom: #c2c2c2 solid 1px;
+	display:block;
+}
+
+#findID, #findPW, #fname, #fid{
+	margin: 20px;
+	box-sizing: border-box;
+	width: 320px;
+	height:45px; 
+}
+
+.emailBox{
+	display: flex;
+}
+
+#femail, #femail2{
+	width: 150px;
+	box-sizing: border-box;
+	float: left;
+	margin: 5px 5px 20px 20px;
+	height:45px; 
+}
+
+#selectBox, #selectBox2 {
+	width: 160px;
+	box-sizing: border-box;
+	float: right;
+	margin: 5px 20px 20px 5px;
+	height:45px; 
+}
+
+#fidBox, #fpwBox{
+ 	text-align: center;
+}
+
+#yourId{
+	text-align: center;
+	font-size: x-large;
+	font-weight: bolder;
+}
+
+#fidbtnBox, #fpwbtnBox{
+	text-align: center;
+	box-sizing: border-box;
+	width: 250px;
+	margin-left: 55px;
+}
+
+#fidbtn, #fpwbtn{
+	background-color: black;
+	color: white;
+	border: none;
+    border-radius: 5px;
+    padding: 10px 20px; 
+    font-size: 13px;
+    cursor: pointer;
+	width: 80%;
+	text-align: center;
+}

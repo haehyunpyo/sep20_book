@@ -3,6 +3,8 @@ package com.book.web.zzim;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,15 +22,20 @@ public class ZzimController {
 	
 	
 	@PostMapping
-    public ResponseEntity<Object> toggleZzim(@RequestBody Map<String, String> requestData) {
+    public ResponseEntity<Object> toggleZzim(@RequestBody Map<String, String> requestData, HttpSession session) {
         String bkno = requestData.get("bkno");
         String action = requestData.get("action");
+        String mid = (String) session.getAttribute("mid");
         
         try {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("mid", mid);
+            parameters.put("bkno", bkno);
+
             if ("INSERT".equals(action)) {
-                zzimService.insertZzim(bkno);
+                zzimService.insertZzim(parameters);
             } else if ("DELETE".equals(action)) {
-                zzimService.deleteZzim(bkno);
+                zzimService.deleteZzim(parameters);
             }
 
             Map<String, Object> response = new HashMap<>();

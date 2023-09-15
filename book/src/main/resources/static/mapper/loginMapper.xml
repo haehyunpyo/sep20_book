@@ -11,24 +11,32 @@
 	<select id="hasKakaoUser" parameterType="Map" resultType="Integer">
 		SELECT count(*)  
 		FROM members
-		WHERE memail=#{kemail} AND kakao=1
+		WHERE memail=#{kemail} AND mconnect=1
 	</select>
 	
-	<insert id="setKakaoUser" parameterType="Map">
-	 	INSERT INTO members (mid, memail, kakao)
-     	VALUES(#{kid} ,#{kemail}, 1)
-	</insert>
+	<select id="hasNaverUser" parameterType="Map" resultType="Integer">
+		SELECT count(*)  
+		FROM members
+		WHERE memail=#{Nemail} AND mconnect=2
+	</select>
 	
-	<update id="autoCheck" parameterType="String">
+	<update id="autoCheck" parameterType="Map">
 		UPDATE members
 		SET auto=1
 		WHERE mid=#{mid}
 	</update>
 
-	<select id="autoLogin" parameterType="String" resultType="Map">
-		SELECT count(*) as autocount, mid, mname
+	<select id="hasAuto" parameterType="Map" resultType="Integer">
+		SELECT auto
 		FROM members
-		WHERE mid=#{SuserID} AND auto=1
+		WHERE mid=#{sid}
 	</select>
-
+	
+	<update id="autoLogout" parameterType="Map">
+		UPDATE members
+		SET auto=0
+		WHERE mid=#{sid}
+	</update>
+	
+	
 </mapper>

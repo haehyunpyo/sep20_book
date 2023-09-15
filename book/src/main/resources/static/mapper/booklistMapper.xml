@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.book.web.booklist.BooklistDAO">
 
+ <!-- BS -->
 	<select id="booklist" parameterType="Map" resultType="Map">
 		SELECT bkno, bkname, bkwrite, bkimg, bkprice, bkcate,
 		(
@@ -110,7 +111,7 @@
 	</insert>
 	
 	
- 	
+ <!-- SM -->	
 	<insert id="detail2" parameterType="CartDTO">
     INSERT INTO cart(bkno,bkimg, bkscontent, price, total, amount, mid) VALUES(#{bkno},#{bkimg}, #{bkscontent}, #{price}, #{price}*#{amount}, #{amount}, #{mid})
 
@@ -199,10 +200,14 @@ WHERE mid=#{mid} AND cdel = 1
  UPDATE coupons 
  set cdel = 0
  WHERE mid=#{mid}
- 
- 
  </update>
 	
+	
+<!-- SH -->
+	<update id="rental" parameterType="Map">
+		INSERT INTO rental (rsdate, rddate, bkno, rdel, mid)
+		VALUES (#{rsdate}, #{rddate}, #{bkno}, 1, #{mid})
+	</update>	
 	
 	
 

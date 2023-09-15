@@ -84,23 +84,53 @@
 <link id="color-scheme" href="assets/css/colors/default.css" rel="stylesheet">
 
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="./js//jquery-3.7.0.min.js"></script>
 <script type="text/javascript">
 
 function kakaoLogout(){
 	location.href="https://kauth.kakao.com/oauth/logout?client_id=3ecca13d973c6d11e752a114a1e14922&logout_redirect_uri=http://localhost/logout/kakao";
+	window.location.href = "/logout";
 }
+function naverLogout(){
+	let Npopup = window.open("https://nid.naver.com/nidlogin.logout", "_blank", "width=500, height=500");
+	
+	Npopup.addEventListener("load", function() {
+	    
+		// 팝업 창의 현재 URL 확인
+	    let currentUrl = Npopup.location.href;
+	    
+	    // 원하는 URL 조건에 따라 팝업 창을 닫음
+	    if (currentUrl.includes("www.naver.com")) {
+	        Npopup.close();
+	    }
+	});
+
+	// 팝업 창을 닫는 함수 실행
+	setTimeout(function() {
+	    if (Npopup) {
+	        Npopup.close();
+	    }
+	}, 3000);
+	
+	window.location.href = "/logout";
+}
+
 
 	$(function(){
 	
-		// 로그아웃_자동로그인 해제
 		let sid = getCookie("SuserID");
 		let setS = getCookie("setS");
+		let setY = getCookie("setY");
 		
+		// 로그아웃버튼 클릭
 		$("#logoutbtn").click(function(){
-			delCookie("SuserID");
-			delCookie("setS");
 			Logout();
+		});
+		
+		// 자동로그인 해제버튼 클릭
+		$("#outauto").click(function(){
+			autoLogout();
 		});
 		
 		// 쿠키 삭제
@@ -109,7 +139,6 @@ function kakaoLogout(){
 			expireDate.setDate(expireDate.getDate() - 1);
 			document.cookie = cookieName +"="+ "; expires="+ expireDate.toUTCString()
 		}
-		
 		
 		// 쿠키가져오기
 		function getCookie(cookieName){
@@ -126,10 +155,41 @@ function kakaoLogout(){
 			}
 		}
 		
+		// 로그아웃 진행
 		function Logout(){
-			window.location.href = "/logout";
+			
+			if(${sessionScope.withN eq 2}){	// 네이버로그아웃 이후 로그아웃실행 
+				alert("네이버로그아웃하자");
+				naverLogout();
+			} else if(${sessionScope.withK eq 1}){ // 카카오로그아웃 이후 로그아웃실행 
+				kakaoLogout();
+			} 
+				window.location.href = "/logout";	// 일반로그아웃
+			
 		}
 		
+		// 자동로그인 해제 진행
+		function autoLogout(){
+
+			// auto가 1이라면 0으로 변경
+			$.ajax({
+				url : "./autologout",
+				type : "post",
+				data : {sid : sid},
+					dataType : "json",
+					success : function(data) {
+						if(data.result == 1){
+							alert("자동로그인이 해제되었습니다.")
+							delCookie("SuserID");
+							delCookie("setS");
+							Logout();
+						}
+					},
+					error : function(error) {
+						alert("에러발생");
+						}
+				});
+		}
 		
 		
 	});
@@ -144,35 +204,52 @@ function kakaoLogout(){
 	data-offset="60">
 	<%@ include file="menu.jsp"%>
 	<main>
-		<div class="main">
-			<section class="module-small">
-			<br><br><br><br><br><br><br><br><br>
-	<h1>첫 화면</h1>
 	
-		<div>
-			<button type="submit" onclick="kakaoLogout()">
-				카카오계정 로그아웃
-			</button>
+	<div class="main">
+       <hr class="divider-w">
+        <section class="module-small">
+          <div class="container">
+
+          </div>
+        </section>
+          <div class="container">
+           <h1>첫 화면</h1>
+              
+          </div>
+        <hr class="divider-w">
+        
+        
+        <hr class="divider-w">
+        
+        <section class="module">
+        <div class="container">
+        	<div>
 			<button type="button" id="logoutbtn">
 				로그아웃
 			</button>
+			<span>id가 세션에 있음 떠라 : ${sessionScope.mid}</span>
 		</div>
 		
-	 <div>
-         <c:choose>
-            <c:when test="${sessionScope.mid ne null}"> id : ${sessionScope.mid} _ 로그인완</c:when>
-            <c:otherwise>로그아웃상태 </c:otherwise>
-         </c:choose>
-      </div>
-			</section>
-			<hr class="divider-w">
+	  	<div>
+         	<c:choose>
+           		<c:when test="${sessionScope.mid ne null}"> id : ${sessionScope.mid} _ 로그인완</c:when>
+            	<c:otherwise>로그아웃상태 </c:otherwise>
+         	</c:choose>
+      	</div>
+      	
+      <!-- 마이페이지에 들어갈 예정 -->
+      	<div>
+      		<button type="button" id="outauto">자동로그인 해제</button>
+      	</div>
+          
+          </div>
+        </section>
+	
+	
+	
+	
 			
-	     <section class="module-small">
-          <div class="container" style="width: 100%">
-            
-            
-            </div>
-          </section>
+
 
 			<!-- --------------------------------------------------- 하단 풋---------------------------------------------------------------- -->
 			<div class="module-small bg-dark">

@@ -244,6 +244,7 @@ window.onload = function(){
 						<option id="naver" value="@naver.com">@naver.com</option>
 						<option id="gmail" value="@gmail.com">@gmail.com</option>
 						<option id="hanmail" value="@hanmail.net">@hanmail.net</option>
+						<option id="kakao" value="@kakao.com">@kakao.com</option>
 					</select>
 					<input type="hidden" name="memail" id="memailF"/>
 				</div>

@@ -8,10 +8,10 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ZzimDAO {
 
-	void insertZzim(String bkno);
+	void insertZzim(Map<String, Object> parameters);
 
-	void deleteZzim(String bkno);
+	void deleteZzim(Map<String, Object> parameters);
 
-	List<Integer> zzimBooklist();
+	List<Integer> zzimBooklist(String mid);
 
 }

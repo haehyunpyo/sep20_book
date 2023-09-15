@@ -64,101 +64,133 @@
 // 카카오로그인
 function kakaoLogin(){
 	location.href="https://kauth.kakao.com/oauth/authorize?client_id=3ecca13d973c6d11e752a114a1e14922&redirect_uri=http://localhost/login/kakao&response_type=code"
-	//window.open("https://kauth.kakao.com/oauth/authorize?client_id=3ecca13d973c6d11e752a114a1e14922&redirect_uri=http://localhost/login&response_type=code", "_blank", "width=500, height=500");
-	//opner.document.location.href="http://localhost/"
 }
 
 //네이버로그인
 function naverLogin(){
-	location.href="";
+	location.href="https://nid.naver.com/oauth2.0/authorize?client_id=hnntl6BcuuFp5qf4vMAt&redirect_uri=http://localhost/login/naver&response_type=code";
 }
 
 
 $(function() {
 	
-	//쿠키 검사
+	let sid = getCookie("SuserID");
+	let setS = getCookie("setS");
 	let userID = getCookie("userID");
 	let setY = getCookie("setY");
-	let setS = getCookie("setS");
 	
 	
-	if (setS == "S"){
-		alert("자동로그인에 체크함")
+	// 자동로그인 기록이 있을때
+	if (setS == "S" && ${sessionScope.mid eq null}){
+		
+		$.ajax({
+			url : "./login",
+			type : "post",
+			data : {sid : sid, setS : setS},
+				dataType : "json",
+				success : function(data) {
+					if(data.auto == 1){
+						alert("자동로그인이 진행됩니다.");
+						window.location.href = "/";
+					} else {
+						window.location.href = "/login";
+					}
+				},
+				error : function(error) {
+					alert("에러발생");
+					}
+			});
+
+		return false;
 	}
-	else if(setY == "Y"){
+	
+	// 아이디저장 기록이 있을때
+	if(setY == "Y"){
 		$("#saveID").prop("checked", true);
 		$("#id").val(userID);
 	} 
 	else{
 		$("#saveID").prop("checked", false);
 	}
-	
-	
+
+	// 로그인버튼 클릭하면 작동
 	$("#loginbtn").click(function(){
 		
-		let check = false;	// login-form 최종제출을 위한 변수선언
-
 		let id = $("#id").val();
 		let pw = $("#pw").val();
-		
+
 		if(id == "" || id.length < 3){
 			Swal.fire('아이디를 입력해주세요.');
 			$("#id").focus();
+			return false;
 		} 
-		else if(pw.length < 3) {
+		
+		if(pw.length < 3) {
 			Swal.fire('비밀번호를 입력해주세요.');
 			$("#pw").focus();
+			return false;
 		}  
-		else{
-			check = true;
-		}
 		
-		// 체크여부확인
 		let saveIDT = $("#saveID").is(":checked"); // 아이디저장체크_ true
 		let saveAllT = $("#saveAll").is(":checked"); // 자동로그인체크_ true
 		
+		//자동로그인 체크했다면
 		if(saveAllT){
-			alert("S쿠키저장");
-			setCookie("SuserID", id, 2)
-			setCookie("setS", "S", 2)
-			
-			let sid = getCookie("SuserID");
-			let setS = getCookie("setS");
+			alert("자동로그인에 체크되었습니다.");
+			sid = getCookie("SuserID");
 			
 			$.ajax({
-				url : "./autoLogin",
+				url : "./autoCheck",
 				type : "post",
-				data : {sid : sid, setS : setS},
+				data : {id : id, pw : pw},
 					dataType : "json",
 					success : function(data) {
-						alert("자동로그인에 체크함")
-						saveIDT = false;
+						
+						if(data.auto == 1){		// 계정일치 => 쿠키저장&로그인
+							//alert("S쿠키저장");
+							setCookie("SuserID", id, 7);
+							setCookie("setS", "S", 7);
+							frmsubmit();
+							saveIDT = false;
+							
+						} else if(data.auto == 0){	// 계정불일치
+							Swal.fire("정보를 다시 입력해주세요");
+						}
 					},
 					error : function(error) {
 						alert("에러발생");
 						}
 				});
+		return false;
+		}
+		
+		
+		if(saveIDT) {	// true
 			
-		} else if(saveIDT) {	// true
-			
-			alert("쿠키저장");
+			//alert("아이디저장");
 			setCookie("userID", id, 2);
 			setCookie("setY", "Y", 2);
-			saveIDT = false;
-			
-		} else if (!saveIDT) {	// false
-			
-			alert("진행x"); 
-			//delCookie("userID");
-			//delCookie("setY");
+			frmsubmit();
+			return false;
 		}
-
+		
+		if(!saveIDT) {	// false
+			
+			//alert("걍로그인"); 
+			delCookie("userID");
+			delCookie("setY");
+			frmsubmit();
+			return false;
+		} 
+		
 		//login-form 최종제출
- 		if(check){
-			document.getElementById('frm').submit();
+ 		function frmsubmit(){
+			//alert("form제출");
+ 			document.getElementById('frm').submit();
 		}
+		
 	});
-	
+
 	
 	// 쿠키 저장
 	function setCookie(cookieName, value, exdays){
@@ -198,6 +230,7 @@ $(function() {
 			}
 		}
 	}
+	
 
 });
 
@@ -207,20 +240,22 @@ $(function() {
 <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
   <%@ include file="menu.jsp"%>
   
-	<div class="Lcontainer">
-		<div class="login-form">
-			<form action="/login" method="post" id="frm">
+	<div class="Lcontainer" align="center">
+		<div class="login-form" align="center">
+			<form action="./Glogin" method="post" id="frm">
 				<div class="form-item idBox">
 					<input type="text" name="id" id="id" placeholder="아이디를 입력하세요">
 				</div>
 				<div class="form-item pwBox">
 					<input type="password" name="pw" id="pw" placeholder="패스워드를 입력하세요">
 				</div>
-				<div class="form-item saveIDBox">
-					<input type="checkbox" id="saveID"> <label for="saveID">아이디저장</label>
-				</div>
-				<div class="form-item saveAllBox">
-					<input type="checkbox" id="saveAll"> <label for="saveID">자동로그인</label>
+				<div class="saveBox">
+					<div class="form-item saveIDBox">
+						<input type="checkbox" id="saveID"> <label for="saveID">아이디저장</label>
+					</div>
+					<div class="form-item saveAllBox">
+						<input type="checkbox" id="saveAll"> <label for="saveAll">자동로그인</label>
+					</div>
 				</div>
 
 				<div class="form-item loginBtnBox">
@@ -229,19 +264,19 @@ $(function() {
 			</form>
 		</div>
 
-		<div class="login-with">
-			<div class="login-with-item kakao">
-				<button type="submit" onclick="kakaoLogin()">
-					<div><img src="img/login/login_kakaoBtn.png" alt="kakaoBtn" id="kakao"></div>
-				</button>
+		<div class="login-with" align="center">
+			<div id="kbtnBox">
+				<img src="img/login/login_kakaoBtn.png" alt="kakaoBtn" id="kakao" onclick="kakaoLogin()">
 			</div>
-			<div class="login-with-item naver">네이버로그인</div>
-			<div class="login-with-item google">구글로그인</div>
+			<div id="nbtnBox">
+				<img src="img/login/login_naverBtn.png" alt="naverBtn" id="naver" onclick="naverLogin()">
+			</div>
 		</div>
 		
-		<div class="">
-			<a href="./finduser">아이디 & 비밀번호 찾기</a> |
-			<a href="./join">회원가입</a>
+		<div class="forUserBox" align="center">
+			<a href="./finduser">아이디 & 비밀번호 찾기 </a> |
+			<span></span>
+			<a href="./join"> 회원가입</a>
 		</div>
 	</div>
 	    <!--  

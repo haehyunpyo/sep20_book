@@ -84,11 +84,13 @@
                 </ul>
               </li>
               <c:choose>
-	              <c:when test="${sessionScope.mname eq null}">
+	              <c:when test="${sessionScope.mid eq null}">
 	              	<li class="dropdown"><a href="./login">로그인</a></li>
+	              	<span>${sessionScope.mname }</span>
 	              </c:when>
 	              <c:otherwise>
 	             	 <li class="dropdown"><a href="./logout">로그아웃</a></li>
+           	         <span>${sessionScope.mname }</span>
 	              </c:otherwise>
               </c:choose>
             </ul>
