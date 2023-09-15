@@ -147,7 +147,7 @@ $(".pr-remove").click(function(){
 	href="assets/images/favicons/favicon-96x96.png">
 <link rel="icon" type="image/png" sizes="16x16"
 	href="assets/images/favicons/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="assets/images/favicons/manifest.json">
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="msapplication-TileImage"
 	content="assets/images/favicons/ms-icon-144x144.png">
