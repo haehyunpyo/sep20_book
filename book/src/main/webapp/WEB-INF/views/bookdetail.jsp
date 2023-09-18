@@ -120,6 +120,9 @@
                     </div>
                    <div class="col-sm-8"><button class="btn btn-lg btn-block btn-round btn-b" type="submit">장바구니 담기</button></div>
                   </c:if> 
+                  <c:if test="${sessionScope.mid eq null }">
+                   <div class="col-sm-8"><a class="btn btn-lg btn-block btn-round btn-b">회원만 이용가능합니다.</a></div>
+                  </c:if> 
                  </form>
                 </div>
                 
@@ -137,7 +140,7 @@
                 </div> 
                 <div class="row mb-20">
                   <div class="col-sm-12">
-                    <div class="product_meta" >태그: <a href="./booklist?searchN=write&searchV=${bookdetail.bkwrite }" >#${bookdetail.bkwrite }</a>
+                    <div class="product_meta" >태그 : <a href="./booklist?searchN=write&searchV=${bookdetail.bkwrite }" >#${bookdetail.bkwrite }</a>
                     </div>
                   </div>
                 </div>
@@ -342,6 +345,9 @@
 
        // 하트 이미지 클릭 이벤트
        zHeart.addEventListener("click", function () {
+         if(${sessionScope.mid == null}){
+            alert("로그인 해주세요")
+           }else{
            if (zHeart.src.includes("heartOff.png")) {
                // 클릭 시 찜하기 (INSERT) AJAX 요청 실행
                sendAjaxRequest(bkno, "INSERT");
@@ -350,6 +356,7 @@
                // 클릭 시 찜 취소 (DELETE) AJAX 요청 실행
                sendAjaxRequest(bkno, "DELETE");
                zHeart.src = "../img/icon/heartOff.png"; // 이미지 변경
+           }
            }
        });
     	

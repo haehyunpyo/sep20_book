@@ -8,7 +8,7 @@
           </div>
           <div class="collapse navbar-collapse" id="custom-collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="./main">메인</a>
+              <li><a href="/main">메인</a>
               </li>
               
               <li class="dropdown"><a class="dropdown-toggle" href="./booklist?bkcate=0" data-toggle="dropdown">책</a>

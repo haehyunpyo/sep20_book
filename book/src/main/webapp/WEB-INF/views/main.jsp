@@ -292,31 +292,49 @@
 					</div>
 					</div>
 					</div>
-					
-					
+			<c:if test="${sessionScope.mid ne null }">
 				  <div class="row"  style="background-color: #f5faf2; border-radius:20px; margin-top: 5%;">
 					<div class="row" style="width: 90%; margin-left: 50px;">
 					<div class="row">
-						<div class="col-sm-12">
-							<h3 class="best-title" style="margin-top: 35px;margin-bottom: 35px;">안녕하세요 망곰님 대여중인 책이 있습니다.</h3>
-						</div>
+						<div class="col-sm-10">
+							<h3 class="best-title" style="margin-top: 35px;margin-bottom: 35px;">
+							안녕하세요 ${sessionScope.mid}님 대여중인 책이 
+							<c:choose>
+							<c:when test="${rentlist[0].count eq null}">
+							없습니다.
+							</c:when>
+							<c:otherwise>
+							있습니다.
+							</c:otherwise>
+							</c:choose>
+							</h3>
+						 </div>
+						<div class="col-sm-2">
+							<a href="/mypage/rent">대여내역 확인하기</a>
+					    </div>
 					</div>
 					<div class="row">
-											<div class="shop-item">
-												<div class="shop-item-image">
-													<img style="height: 418px;" src="/img/bookimg/bk5.jpg"/>
-													<div class="shop-item-detail">
-														<a class="btn btn-round btn-b"
-															href="./bookdetail?bkno=5"> 상세보기</a><br>
-													</div>
-												</div>
-												<h3 class="shop-item-title font-alt"><a href="./bookdetail?bkno=5">1Q84 1</a>
-												</h3>
-												<a href="./booklist?searchN=write&searchV=무라카미 하루키"><h6>무라카미 하루키</h6></a>
-											</div>
-										</div>
+					<c:choose>
+                       <c:when test="${rentlist[0].count eq null}">
+					    <div class="shop-item">
+					     <h2 style="text-align: center;">대여 내역이 없습니다.</h2>
+					    </div>
+					    </c:when>
+					    <c:otherwise>
+						<c:forEach items="${rentlist }" var="row">
+						<div class="shop-item">
+								<a href="./bookdetail?bkno=${row.bkno}"><img style="height: 300px;" src="/img/bookimg/${row.bkimg }" /></a>
+							<h3 class="shop-item-title font-alt"><a href="./bookdetail?bkno=${row.bkno}">${row.bkname}</a>
+							</h3>
+							<a href="./booklist?searchN=write&searchV=${row.bkwrite}"><h6>${row.bkwrite}</h6></a>
+				    	   </div>
+							</c:forEach>
+					    </c:otherwise>
+					  </c:choose>
+						</div>
 					</div>
 					</div>
+					</c:if>
 					
 					
 					

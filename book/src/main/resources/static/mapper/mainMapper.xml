@@ -8,5 +8,15 @@
 		ORDER BY bano 
 		ASC
 	</select>
+	
+	<select id="rentlist" parameterType="Map" resultType="Map">
+	     SELECT r.rno, r.bkno, b.bkwrite, b.bkimg, b.bkname, r.rsdate, r.rddate, r.rdel,
+	     (select count(*) from rental where mid = #{mid} AND rdel = 1) as count
+	     FROM rental r
+		 LEFT JOIN books b ON r.bkno = b.bkno
+		 WHERE r.mid = #{mid}
+		 AND r.rdel = 1		
+		 order by r.rsdate DESC
+	</select>
 
 </mapper>
