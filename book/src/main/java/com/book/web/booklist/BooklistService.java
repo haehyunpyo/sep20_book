@@ -92,13 +92,13 @@ public class BooklistService {
 		
 	}
 
-	public void update2(Map<String, Object> map) {
-		booklistDAO.update2(map);
+
+
+	public void delete4(CartDTO cart) {
+		booklistDAO.delete4(cart);
+		
 	}
-	
-	/*-----------------------------------------------------------------*/
-	
-	
+
 
 	
 	

@@ -182,26 +182,31 @@ WHERE c.mid = #{mid};
  DELETE FROM cart WHERE mid =#{mid} 
  </delete>
  
- <select id="coupon" parameterType="CartDTO"  resultType="Map">
+ 
+  <select id="coupon" parameterType="CartDTO"  resultType="Map">
 SELECT *
 FROM coupons
 WHERE mid=#{mid} AND cdel = 1
 </select>
  
- <update id="update" parameterType="Map">
+ 
+  <update id="update" parameterType="Map">
  UPDATE cart 
- set total = #{sumtotal}
- WHERE mid=#{mid}
+ set total =#{total}*0.9, price=#{price}*0.9
+ WHERE cartno=#{cartno}
+ </update>
+ 
+
+ 
+ <update id="delete4" parameterType="CartDTO">
+  UPDATE coupons
+  set cdel = 0
+  WHERE mid=#{mid}
+ 
  
  
  </update>
  
-  <update id="update2" parameterType="Map">
- UPDATE coupons 
- set cdel = 0
- WHERE mid=#{mid}
- </update>
-	
 	
 <!-- SH -->
 	<update id="rental" parameterType="Map">

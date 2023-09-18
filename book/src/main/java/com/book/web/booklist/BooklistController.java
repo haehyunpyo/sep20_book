@@ -263,27 +263,32 @@ public class BooklistController {
 		return "redirect:/booklist";
 	}
 	
-	@ResponseBody
 	@PostMapping("/coupon")
 	public String discount(HttpSession session,@RequestParam Map<String, Object> map,CartDTO cart) {
-		
 		String mid = (String)session.getAttribute("mid");
-		cart.setMid("mid");
-		List<Map<String, Object>> cartlist = booklistService.cart(cart);
-		System.out.println(cartlist);
-	
-	    
+		cart.setMid(mid);
 		map.put("mid", mid);
-	
-	
-	System.out.println(map);
-	JSONObject json = new JSONObject();
-	booklistService.update(map);
-	booklistService.update2(map);
+		System.out.println(map.get("cartno"));
 		
-	return json.toString(); 
 	
+		
+		
+		  List<Map<String, Object>> cartlist = booklistService.cart(cart);
+		  System.out.println(cartlist);
+		  for (int i = 0; i < cartlist.size(); i++) {
+		  booklistService.update(cartlist.get(i));
+		  
+		  }
+		 
+	
+	
+	
+
+		
+		  return "redirect:/purchase";
 	}
+
+}
 	
 	
 	
@@ -294,4 +299,4 @@ public class BooklistController {
 	
 	
 	
-}
+

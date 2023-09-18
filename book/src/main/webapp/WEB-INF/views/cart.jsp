@@ -11,53 +11,86 @@
 <script type="text/javascript">
 
 //select 요소를 가져옵니다.
-$(function(){
-  $("#coopang").click(function(){ 
-    let coopang = $(".selectMail").val();
-    
-    alert(coopang + "이 적용되었습니다.");
-  //  let price = 0.9*parseInt($(".").text());
-    let sumtotal = 0.9*parseInt($(".sumtotal").text());
-    let mtotal =sumtotal + 2000;
-    let cartno = $(".cartno").text();
-   alert(cartno);
-    if (coopang === '웰컴 10%할인쿠폰') {
-    	   $.ajax({
-               url : "./coupon",
-               type : "post",
-               data : {"sumtotal":sumtotal},
-               dataType : "json",
-               success : function(data) {	
-    
+$(function() {
+		$("#coopang").click(
+				function() {
+					let coopang = $(".selectMail").val();
+					alert(coopang + "이 적용되었습니다.");
+					//  let price = 0.9*parseInt($(".").text());
+					let sumtotal = 0.9 * parseInt($(".sumtotal").text());
+					let mtotal = sumtotal + 2000;
+					let cartno = $(".cartno").text();
 
+					
 
-	document.location.href = document.location.href;
-    }
-               
-               });
-    }
-  });
-});
+					//alert(mtotal)
+					if (coopang === '웰컴 10%할인쿠폰') {
+						$(".mtotal").css("color", "red").text("할인가: "+mtotal+"원");
+		                  $("#coupons").hide();
+		                //   selectBox.value = $("#Opt").val();
 
+						
+						
+						
+					}
+				});
 
+		$("#ncoopang").click(
+				function() {
 
+					alert("할인쿠폰이 취소되었습니다.");
+					let previousValue = parseInt($(".sumtotal").text());
+					$(".mtotal").css("color", "black").text(
+							previousValue + 2000 + "원");
 
+					$("#coupons").show();
 
-    $(function(){
-	$("#tbtn").click(function(){
-		let stock =  $("#mtotal").val();
-		if(stock =="2000"){
-			alert("장바구니에 재고가 없습니다.");
-		    location.href = './booklist';
-			
-		}else{
-		//위 두 검사가 성공한다면 form전송하기
-			if(confirm("결제페이지로 이동하겠습니까?")){
-				location.href="./purchase";
-			}
-		}
+					selectBox.value = $("#Opt").val();
+
+				});
+
 	});
-});    
+
+
+
+$(function() {
+    $("#tbtn").click(function() {
+  	  
+  	  
+  	  let coopang = $(".selectMail").val();
+       let stock = $("#mtotal").val();
+   	let cartno = $(".cartno").text();
+
+		let cartnos = [];
+		$(".cartno").each(function() {
+			cartnos.push($(this).text());
+		});
+		alert(cartnos);
+		
+       if (stock == "2000") {
+          alert("장바구니에 재고가 없습니다.");
+          location.href = './booklist';
+return false;
+       } else {
+          //위 두 검사가 성공한다면 form전송하기
+          if (confirm("결제페이지로 이동하겠습니까?")) {
+          	if (coopang === '웰컴 10%할인쿠폰') {
+  			
+          		document.getElementById("discount").submit()
+          		
+  			}else{
+  				location.href="./purchase";
+  				return false;
+          }
+      	
+       }else{
+      		location.href="./cart";
+      		return false;
+       }
+          	
+    }
+ });
+});
  
 
  
@@ -116,7 +149,7 @@ $(".pr-remove").click(function(){
     Document Title
     =============================================
     -->
-<title>Titan | Multipurpose HTML5 Template</title>
+<title>동네북 | 우리동네 동네북</title>
 <!--  
     Favicons
     =============================================
@@ -236,7 +269,7 @@ $(".pr-remove").click(function(){
 											</tr>
 										</c:if>
 
-                                   <!--</form> -->
+                                  		<!--</form> -->
 									</c:forEach>
 								</tbody>
 							</table>
@@ -245,14 +278,14 @@ $(".pr-remove").click(function(){
 					<div class="row">
 						<div class="col-sm-3" id="fren">
 							<div class="form-group">
-								 <select class="selectMail" id="selectBox" name="selectBox">
-						<option id="Opt">-쿠폰선택-</option>
-						<c:forEach items="${coupon}" var="row">
-						
-						<option id="coupons" value="${row.cocontent }">${row.cocontent }</option>
-						
-					</c:forEach>
-					</select> 
+								<select class="selectMail" id="selectBox" name="selectBox">
+									<option id="Opt">-쿠폰선택-</option>
+									<c:forEach items="${coupon}" var="row">
+
+										<option id="coupons" value="${row.cocontent }">${row.cocontent }</option>
+
+									</c:forEach>
+								</select>
 								<!-- <input class="form-control" type="text"  id="selectedValue" value="" readonly /> -->
 							</div>
 							
@@ -260,8 +293,11 @@ $(".pr-remove").click(function(){
 						<div class="col-sm-3" id="papa">
 							<div class="form-group">
 							
-						<button class="btn btn-block btn-round btn-c pull-right" type="button" id="coopang">쿠폰적용</button>
-					
+						
+								<button class="btn btn-block btn-round btn-c pull-right"
+									type="button" id="coopang">쿠폰적용</button>
+								<button class="btn btn-block btn-round btn-c pull-right"
+									type="button" id="ncoopang">쿠폰취소</button>
 					
 							</div>
 						</div>
@@ -277,7 +313,7 @@ $(".pr-remove").click(function(){
 					<div class="row mt-70">
 						<div class="col-sm-5 col-sm-offset-7">
 							<div class="shop-Cart-totalbox">
-							<!--  <form action="./purchase" method="post"> -->
+							<form id="discount" action="./coupon" method="post"> 
 								<h4 class="font-alt">Cart Totals</h4>
 								<table class="table table-striped table-border checkout-table">
 									<tbody>
@@ -315,7 +351,7 @@ $(".pr-remove").click(function(){
 						
 								<button class="btn btn-lg btn-block btn-round btn-d" id="tbtn"
 									type="button" >결제하기</button>
-							<!-- </form> --> 
+							 </form> 
 							</div>
 						</div>
 						

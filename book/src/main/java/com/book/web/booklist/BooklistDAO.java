@@ -51,8 +51,9 @@ public interface BooklistDAO {
 
 	void update(Map<String, Object> map);
 
-	void update2(Map<String, Object> map);
-	
+	void delete4(CartDTO cart);
+
+
 	
 /*-----------------------------------------------------------------*/
 }

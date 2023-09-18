@@ -37,6 +37,17 @@
 <script src="../js/jquery-3.7.0.min.js"></script>
 <script type="text/javascript">
 function purchase() {
+	
+	  let stock = $("#mtotal").val();
+		
+	
+	 if (stock == "2000") {
+         alert("장바구니에 재고가 없습니다.");
+         location.href = './booklist';
+
+      }
+	
+	
     if (confirm("결제하시겠습니까?")) {
      
      
@@ -87,7 +98,7 @@ function showPaymentConfirmation() {
 
 
 
-<title>Insert title here</title>
+<title>동네북 | 우리동네 동네북</title>
 </head>
 <link rel="stylesheet"
 	href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
