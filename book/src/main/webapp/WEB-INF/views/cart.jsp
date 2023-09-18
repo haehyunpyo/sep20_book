@@ -40,9 +40,11 @@ $(function() {
 
 					alert("할인쿠폰이 취소되었습니다.");
 					let previousValue = parseInt($(".sumtotal").text());
+					mtotal = previousValue + 2000;
 					$(".mtotal").css("color", "black").text(
 							previousValue + 2000 + "원");
 
+					$(".mtotal")=previousValue + 2000;
 					$("#coupons").show();
 
 					selectBox.value = $("#Opt").val();
@@ -55,17 +57,25 @@ $(function() {
 
 $(function() {
     $("#tbtn").click(function() {
-  	  
-  	  
-  	  let coopang = $(".selectMail").val();
-       let stock = $("#mtotal").val();
-   	let cartno = $(".cartno").text();
+    	
+    	
+    	var mtotalText = $(".mtotal").text();
 
-		let cartnos = [];
+    	// 텍스트에서 숫자만 추출하기 (정규식을 사용)
+    	var numbersOnly = mtotalText.match(/\d+/);
+    	
+		
+  	  
+		
+		let coopang = $(".selectMail").val();
+       let stock = $("#mtotal").val();
+   	//let cartno = $(".cartno").text();
+
+	/* 	let cartnos = [];
 		$(".cartno").each(function() {
 			cartnos.push($(this).text());
-		});
-		alert(cartnos);
+		}); */
+		//alert(cartnos);
 		
        if (stock == "2000") {
           alert("장바구니에 재고가 없습니다.");
@@ -76,8 +86,8 @@ return false;
           if (confirm("결제페이지로 이동하겠습니까?")) {
           	if (coopang === '웰컴 10%할인쿠폰') {
   			
-          		document.getElementById("discount").submit()
-          		
+          		//document.getElementById("discount").submit()
+          		location.href="./purchase?mtotal="+numbersOnly;
   			}else{
   				location.href="./purchase";
   				return false;
