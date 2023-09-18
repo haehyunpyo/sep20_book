@@ -219,7 +219,7 @@ $(".pr-remove").click(function(){
 											test="${not empty row.bkimg and not empty row.bkscontent and not empty row.price and not empty row.amount and not empty row.total}"> --%>
 											<tr class="tree">
 												<td class="hidden-xs" style="width: 20%;"><a href="#"><img
-														src="${row.bkimg}" alt="책사진" width="200" height="300" /></a></td>
+														src="/img/bookimg/${row.bkimg}" alt="책사진" width="200" height="300" /></a></td>
 												<td style="width: 30%;">
 													<h5 class="product-title font-alt">${row.bkscontent}</h5>
 												</td>

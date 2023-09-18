@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.book.web.mypage.MyPageDAO">
+	
+	<select id="booklist" parameterType="String" resultType="Map">
+		select bkno, bkname, bkimg, bkwrite, bkprice, bkcate
+		FROM books
+		WHERE bkcate IN (SELECT b.bkcate FROM books b, trade t WHERE t.mid=#{mid} AND b.bkno = t.bkno)
+	</select>
+	
+	<select id="zzimlist" parameterType="String" resultType="Map">
+		select z.zno, b.bkname, b.bkimg, b.bkwrite, z.bkno,
+			(select count(*) from zzim z where z.mid = #{mid}) as count
+		from zzim z left join books b
+		on z.bkno = b.bkno
+		where z.mid = #{mid}
+	</select>
+	
+	<delete id="zdelete" parameterType="Map">
+		delete from zzim
+		where zno = #{del} and mid= #{mid}
+	</delete>
+	
+	<select id="buylist" parameterType="Map" resultType="Map">
+		SELECT t.tno, t.bkno, b.bkimg, b.bkname, b.bkprice, t.tamount, 
+		DATE_FORMAT(t.tdate, '%y-%m-%d %h:%m') AS tdate, 
+		t.tgroup,
+			SUM(t.ttotal) OVER (PARTITION BY t.tgroup) AS total,
+			(SELECT COUNT(DISTINCT tgroup) FROM trade WHERE mid = #{mid}) AS count
+			FROM trade t
+			LEFT JOIN books b ON t.bkno = b.bkno
+		<where>
+		t.mid = #{mid}
+			<choose>
+				<when test="searchN == 'no'">and t.tgroup like concat('%', #{searchV},'%')</when>
+				<when test="searchN == 'title'">and b.bkname like concat('%', #{searchV},'%')</when>
+				<when test="searchN == 'writer'">and b.bkwrite like concat('%', #{searchV},'%')</when>
+			</choose>
+		</where>
+		order by t.tno desc
+	</select>
+	
+	<select id="rentlist" parameterType="Map" resultType="Map">
+		SELECT r.rno, r.bkno, b.bkwrite, b.bkimg, b.bkname, r.rsdate, r.rddate, r.rdel,
+			(select count(*) from rental where mid = #{mid}) as count
+			FROM rental r
+			LEFT JOIN books b ON r.bkno = b.bkno
+		<where>
+		r.mid = #{mid}
+			<choose>
+				<when test="cate == 1">and r.rsdate between DATE_SUB(NOW(), INTERVAL 1 MONTH) and NOW()</when>
+				<when test="cate == 3">and r.rsdate between DATE_SUB(NOW(), INTERVAL 3 MONTH) and NOW()</when>
+				<when test="cate == 6">and r.rsdate between DATE_SUB(NOW(), INTERVAL 6 MONTH) and NOW()</when>
+			</choose>
+			<choose>
+				<when test="searchN == 'title'">and b.bkname like concat('%', #{searchV},'%')</when>
+				<when test="searchN == 'writer'">and b.bkwrite like concat('%', #{searchV},'%')</when>
+			</choose>
+		</where>
+		order by r.rsdate desc
+	</select>
+	
+	<update id="returnBook" parameterType="Map">
+		update rental set rdel = 0
+		where mid = #{mid} and rno = #{rno}
+	</update>
+	
+	<select id="boardlist" parameterType="Map" resultType="Map">
+		select b.bno, b.btitle, b.bcontent, DATE_FORMAT(b.bdate, '%y-%m-%d %h:%m') AS bdate, b.bcate,
+			(select count(*) from board where mid = #{mid}) as count
+		from board b join members m
+		on b.mno = m.mno
+		<where>
+		m.mid = #{mid} and b.bdel = 1
+			<if test="cate gt 0">and b.bcate = #{cate}</if>
+			<choose>
+				<when test="searchN == 'title'">and b.btitle like concat('%', #{searchV},'%')</when>
+				<when test="searchN == 'content'">and b.bcontent like concat('%', #{searchV},'%')</when>
+			</choose>
+		</where>
+		order by b.bno desc
+	</select>
+	
+	<select id="bdetail" parameterType="Integer" resultType="Map">
+		select btitle, bcontent, bdate, bread
+		from board
+		where bno = #{bno}
+	</select>
+	
+	<update id="bdelete" parameterType="Map">
+		update board set bdel = 0 
+		where bno=#{bno}
+		and mno=(select mno from members where mid=#{mid})
+	</update>
+	
+	<select id="commentlist" parameterType="Map" resultType="Map">
+		select c.cno, c.comment, c.cdate, DATE_FORMAT(b.bdate, '%y-%m-%d %h:%m') AS bdate, b.bcate, b.btitle,
+			(select count(*) from comments c join members m on c.mno = m.mno 
+				where mid = #{mid}) as count
+		from comments c join members m on c.mno = m.mno
+			join board b on c.bno = b.bno
+		<where>
+		m.mid = #{mid} and c.cdel = 1
+			<if test="cate gt 0">and b.bcate = #{cate}</if>
+			<choose>
+				<when test="searchN == 'btitle'">and b.btitle like concat('%', #{searchV},'%')</when>
+				<when test="searchN == 'ccontent'">and c.comment like concat('%', #{searchV},'%')</when>
+			</choose>
+		</where>
+		order by c.cno desc
+	</select>
+	
+	<select id="cdetail" parameterType="Integer" resultType="Map">
+		select b.btitle, b.bcontent, b.bdate, b.bread, m.mname
+		from board b ,comments c, members m
+		where c.cno = #{cno} and c.bno = b.bno and b.mno = m.mno
+	</select>
+	
+	<select id="info" parameterType="Map" resultType="Map">
+		select mid, mname, maddr, mbirth, mphone, memail
+		from members
+		where mno = #{mno}
+	</select>
+	
+	<update id="phoneSave" parameterType="Map">
+		update members set mphone = #{phone}
+		where mno = #{mno}
+	</update>
+	
+	<update id="infoChange" parameterType="Map">
+		update members set
+			<choose>
+				<when test="id != null and id != ''">mid = #{id}</when>
+				<when test="pw != null and pw != ''">mpw = #{pw}</when>
+				<when test="birth != null and birth != ''">mbirth = #{birth}</when>
+				<when test="addr != null and addr != ''">maddr = #{addr}</when>
+				<when test="email != null and email != ''">memail = #{email}</when>
+			</choose>
+		<where>
+			mno = #{mno}
+		</where>
+	</update>
+	
+	<select id="idchk" parameterType="String" resultType="Map">
+		select mid, count(*) as count
+		from members
+		where mid = #{id}
+	</select>
+	
+	<select id="emailchk" parameterType="String" resultType="Map">
+		select count(*) as count
+		from members
+		where memail = #{arg0} and mid = #{arg1} 
+	</select>
+	
+</mapper>

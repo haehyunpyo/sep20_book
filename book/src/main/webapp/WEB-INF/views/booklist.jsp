@@ -382,7 +382,9 @@
     	document.addEventListener("DOMContentLoaded", function () {
     	    const likeButtons = document.querySelectorAll("[data-bkno]");
     	    const zzimBookNumbers = ${zzimBooklist};
+    	    
 
+    		   
     	    likeButtons.forEach(function (button) {
     	        const bkno = button.getAttribute("data-bkno");
 
@@ -392,6 +394,9 @@
     	        }
 
     	        button.addEventListener("click", function (event) {
+    	          if(${sessionScope.mid == null}){
+    		            alert("로그인 해주세요")
+    	            }else{
     	            event.preventDefault();
 
     	             const bkno = button.getAttribute("data-bkno");
@@ -406,8 +411,10 @@
     	                    sendAjaxRequest(bkno, "DELETE");
     	                }
     	            }
+     	           }
     	        });
     	    });
+    	    
     	});
     	
 

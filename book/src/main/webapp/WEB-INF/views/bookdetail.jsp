@@ -60,21 +60,7 @@
     <link href="../css/bookdetail.css" rel="stylesheet">
     <script type="text/javascript">
 
-    var zHeart1 = false;
 
-    function toggleImg() {
-      var img = document.getElementById("zheart");
-
-      if (zHeart1) {
-    	  img.src = "../img/icon/heartOff.png"; 
-      } else {
-    	  img.src = "../img/icon/heartOn.png"; 
-      }
-
-      zHeart1 = !zHeart1;
-    }
-    
-    
     </script>
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
@@ -90,7 +76,7 @@
                 <div class="row">
                   <div class="col-sm-12">
                     <h1 class="product-title font-alt">${bookdetail.bkname }</h1>
-                    <img class="zheart" id="zheart" src="../img/icon/heartOff.png" onclick="toggleImg()"/>
+                    <img class="zheart" id="zheart" src="../img/icon/heartOff.png"/>
                   </div>
                   <div class="col-sm-12">
                     <h5 class="product-title font-alt">${bookdetail.bkwrite }</h5>
@@ -338,18 +324,21 @@
        <script type="text/javascript">
     	
        var zHeart = document.getElementById("zheart");
-       var bkno = ${bookdetail.bkno}; // 현재 페이지의 bkno 값
+       var bkno = "${bookdetail.bkno}"; // 현재 페이지의 bkno 값
+       var bkno2 = ${bookdetail.bkno}; 
+       
 
        // 페이지 로딩 시 찜 상태에 따라 하트 이미지 초기 설정
        document.addEventListener("DOMContentLoaded", function () {
            var zzimBookNumbers = ${zzimBooklist}; // 모델에서 전달한 찜한 책의 bkno 배열
 
-           if (zzimBookNumbers.includes(bkno)) {
+           if (zzimBookNumbers.includes(bkno2)) {
                zHeart.src = "../img/icon/heartOn.png";
            } else {
                zHeart.src = "../img/icon/heartOff.png";
            }
        });
+
 
        // 하트 이미지 클릭 이벤트
        zHeart.addEventListener("click", function () {

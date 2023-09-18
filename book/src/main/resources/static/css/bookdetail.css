@@ -2,8 +2,8 @@
 .zheart{
   position: absolute;
   height: 70px; 
-  top: -70px;
-  left : -84px; 
+  top: -107%;
+  left : -30%; 
   opacity: 100%;
   cursor: pointer;
 }

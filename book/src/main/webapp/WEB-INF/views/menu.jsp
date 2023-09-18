@@ -13,12 +13,12 @@
               
               <li class="dropdown"><a class="dropdown-toggle" href="./booklist?bkcate=0" data-toggle="dropdown">책</a>
                 <ul class="dropdown-menu" role="menu">
-                  <li><a href="./booklist">도서</a>
+                  <li><a href="/booklist">도서</a>
                   </li>
                   <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">장르</a>
                     <ul class="dropdown-menu">
-                      <li><a href="./booklist?bkcate=1">소설</a></li>
-                      <li><a href="./booklist?bkcate=2">에세이</a></li>
+                      <li><a href="/booklist?bkcate=1">소설</a></li>
+                      <li><a href="/booklist?bkcate=2">에세이</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -75,14 +75,38 @@
                 </ul>
               </li>
 
-              <li class="dropdown"><a href="documentation.html">관리자 페이지</a></li>
-              <li class="dropdown"><a class="dropdown-toggle" href="#" data-toggle="dropdown">마이페이지</a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a href="shop_single_product.html">구매목록</a></li>
-                  <li><a href="shop_single_product.html">대여목록</a></li>
-                  <li><a href="shop_single_product.html">회원정보</a></li>
-                </ul>
-              </li>
+              <c:if test="${sessionScope.mname ne null && sessionScope.mname eq 'admin'}">
+	              <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">관리자 페이지</a>
+	              	<ul class="dropdown-menu" role="menu">
+	                  <li><a href="/admin/board">게시물 관리</a></li>
+	                  <li><a href="/admin/notice">공지사항</a></li>
+	                  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">구매</a>
+	                  	<ul class="dropdown-menu">
+		                  <li><a href="/admin/stock">재고 관리</a></li>
+		                  <li><a href="/admin/product">상품 등록</a></li>
+		                  <li><a href="/admin/sales">매출액</a></li>
+	                  	</ul>
+	                  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">대여</a>
+	                  	<ul class="dropdown-menu">
+		                  <li><a href="/admin/rent">대여 관리</a></li>
+		                  <li><a href="/admin/rentalAmount">대여량</a></li>
+	                  	</ul>
+	                </ul>
+	               </li>
+               </c:if>
+               <c:if test="${sessionScope.mname ne null && sessionScope.mname ne 'admin'}">
+	              <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">마이페이지</a>
+	                <ul class="dropdown-menu" role="menu">
+	                  <li><a href="/mypage/main">메인</a></li>
+	                  <li><a href="/mypage/zzim">찜목록</a></li>
+	                  <li><a href="/mypage/buy">구매목록</a></li>
+	                  <li><a href="/mypage/rent">대여내역</a></li>
+	                  <li><a href="/mypage/board">게시물 관리</a></li>
+	                  <li><a href="/mypage/comment">댓글 관리</a></li>
+	                  <li><a href="/mypage/info">회원정보관리</a></li>
+	                </ul>
+	              </li>
+              </c:if>
               <c:choose>
 	              <c:when test="${sessionScope.mid eq null}">
 	              	<li class="dropdown"><a href="./login">로그인</a></li>
