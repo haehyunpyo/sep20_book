@@ -35,16 +35,55 @@
 <link id="color-scheme" href="assets/css/colors/default.css"
 	rel="stylesheet">
 <script src="../js/jquery-3.7.0.min.js"></script>
+<style type="text/css">
+.mintotal,.mitotal{
+color: red;
+}
+ 
+
+
+
+
+</style>
+
+
 <script type="text/javascript">
+
+
+/*   // mitotal 값을 가져옴
+  var mitotalValue = parseInt(document.getElementById("mitotal").value, 10);
+
+  // mitotal-2000 값 가져옴
+  var mitotalMinus2000 = mitotalValue - 2000;
+
+  // HTML에서 출력할 부분을 가져옴
+  var mitotalElement = document.querySelector(".mitotal");
+
+  // 값 비교
+  if (mitotalValue === mitotalElement) {
+    // 값이 같을 때 검은색 글씨로 표시
+    mitotalElement.style.color = "black";
+  } else {
+    // 값이 다를 때 빨간색 글씨로 표시하고 할인 정보 추가
+    mitotalElement.style.color = "red";
+    mitotalElement.innerHTML = `할인가 : ${mitotalMinus2000}원`;
+  } */
+	
+	
+
+
+
+
+
 function purchase() {
 	
 	  let stock = $("#mtotal").val();
 		
 	
 	 if (stock == "2000") {
-         alert("장바구니에 재고가 없습니다.");
+         alert("결제목록에 재고가 없습니다.");
          location.href = './booklist';
-
+return false;
       }
 	
 	
@@ -111,19 +150,21 @@ function showPaymentConfirmation() {
     <div>
 	<div class="kakao">
 		<div class="wkakao module-title font-alt">결제 QR 코드 스캔</div>
+		
 	<div class="kakaopic"><img src="img/transaction/kakao.png" alt="kakao transaction" /></div>
 	</div>
-<div class="qr">
-		<img src="img/transaction/qr.png" alt="kakao transaction" class="qrimg" />
+	<div class="qr"  style="background-color:#C5CAE9; border-radius:20px; width:40%;">
+<div>
+		<img src="img/transaction/dino.png" alt="kakao transaction" class="qrimg" />
 		<div class="scan">QR코드는 한번만 스캔 할수있습니다.</div>
 		</div>
-
+</div>
 </div>
 
 
 
 		<form action="./purchase" method="post" id="purchaseForm">
-	<div class="content">
+	<div class="content" >
 		<h1 class="info">주문정보</h1>
 		<div class= flex>
 		<table class="table table-dark table-hover table-striped dtable">
@@ -179,7 +220,7 @@ function showPaymentConfirmation() {
                                         
 										<tr>
 											<th class="tr">주문금액</th>
-											<td><c:out value="${sum}"/>원</td>
+											<td class="mitotal">${mtotal-2000 }원</td>
 										</tr>
 										<tr>
 											<th class="tr">배송비</th>
@@ -190,11 +231,12 @@ function showPaymentConfirmation() {
 
 
 											<th class="tr">결제총액</th>
-											<td><c:out value="${sum+2000}" />원</td>
+											<td class="mintotal">${mtotal }원</td>
 										</tr>
 									</tbody>
 								</table>
-								 <input type="hidden" name="sum" value="${sum+2000}">
+							     <input type="hidden"  id="mitotal" value="${sum }">
+								 <input type="hidden" id="mtotal" value="${sum+2000}">
 								</div>
 									
 

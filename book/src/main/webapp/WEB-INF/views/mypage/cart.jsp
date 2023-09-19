@@ -6,9 +6,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="../js/jquery-3.7.0.min.js"></script>
-
 <script type="text/javascript">
 
 //select 요소를 가져옵니다.
@@ -157,7 +155,6 @@ $(".pr-remove").click(function(){
 
 <title>동네북 | 우리동네 동네북</title>
 
-
 <link rel="apple-touch-icon" sizes="57x57"
 	href="assets/images/favicons/apple-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60"
@@ -189,11 +186,7 @@ $(".pr-remove").click(function(){
 <meta name="msapplication-TileImage"
 	content="assets/images/favicons/ms-icon-144x144.png">
 <meta name="theme-color" content="#ffffff">
-<!--  
-    Stylesheets
-    =============================================
-    
-    -->
+
 <!-- Default stylesheets-->
 <link href="assets/lib/bootstrap/dist/css/bootstrap.min.css"
 	rel="stylesheet">
@@ -242,12 +235,12 @@ $(".pr-remove").click(function(){
 							<table class="table table-striped table-border checkout-table">
 								<tbody>
 									<tr>
-										<th class="hidden-xs">책</th>
-										<th>설명</th>
-										<th class="hidden-xs">가격</th>
-										<th>수량</th>
-										<th>총가격</th>
-										<th>담기 취소</th>
+										<th class="hidden-xs">Item</th>
+										<th>Description</th>
+										<th class="hidden-xs">Price</th>
+										<th>Quantity</th>
+										<th>Total</th>
+										<th>Remove</th>
 									</tr>
 									<c:forEach items="${cart}" var="row">
                                <!-- <form action="./check" method="post"> -->

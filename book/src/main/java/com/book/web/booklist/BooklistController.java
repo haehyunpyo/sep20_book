@@ -168,6 +168,7 @@ public class BooklistController {
 	
 	/*--------------------------------------------------------상민-----------------------------------------------------------*/
 	
+
 	@PostMapping("/cart")
 	public String detail2(CartDTO dto, HttpSession session) {
 
@@ -193,6 +194,8 @@ public class BooklistController {
 			booklistService.detail2(dto);
 		}
 
+		
+		
 		return "redirect:/cart";
 	}
 
@@ -207,7 +210,7 @@ public class BooklistController {
 		
 		List<Map<String, Object>> coupon = booklistService.coupon(dto);
         model.addAttribute("coupon", coupon);
-	//	System.out.println(coupon);
+	
 		return "/cart";
 	}
 
@@ -226,11 +229,12 @@ public class BooklistController {
 	}
 
 	@GetMapping("/purchase")
-	public String purchase(Model model, HttpSession session, HttpServletRequest request) {
-
+	public String purchase(Model model, HttpSession session, @RequestParam("mtotal") int mtotal) {
+		System.out.println("mtotal 값 : " + mtotal);
 		List<Map<String, Object>> map = booklistService.purchase((String) session.getAttribute("mid"));
-int mtotal = (int)request.getAttribute("mtotal");
-model.addAttribute("mtotal", mtotal);
+
+
+        model.addAttribute("mtotal", mtotal);
 		// System.out.println(map);
 		model.addAttribute("map", map);
 

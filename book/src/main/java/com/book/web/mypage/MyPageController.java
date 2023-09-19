@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.book.web.booklist.BooklistService;
+import com.book.web.booklist.CartDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -25,6 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class MyPageController {
 	@Autowired
 	private MyPageService myPageService;
+	@Autowired
+	private BooklistService booklistService;
 	
 	@Autowired
 	private SmsUtil smsUtil;
@@ -40,6 +44,23 @@ public class MyPageController {
 			return "redirect:/login";
 		}
 	}
+	
+	@GetMapping("/cart")
+	public String cart(Model model, HttpSession session) {
+		CartDTO dto = new CartDTO();
+		dto.setMid((String) session.getAttribute("mid"));
+		List<Map<String, Object>> cart = booklistService.cart(dto);
+		model.addAttribute("cart", cart);
+
+		
+		
+		List<Map<String, Object>> coupon = booklistService.coupon(dto);
+        model.addAttribute("coupon", coupon);
+	
+		return "/cart";
+	}
+	
+	
 	
 	@GetMapping("/zzim")
 	public String zzim(Model model, HttpSession session) {

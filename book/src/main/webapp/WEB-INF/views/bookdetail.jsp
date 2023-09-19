@@ -59,8 +59,36 @@
     <link id="color-scheme" href="assets/css/colors/default.css" rel="stylesheet">
     <link href="../css/bookdetail.css" rel="stylesheet">
     <script type="text/javascript">
+    
+  /*   $(document).ready(function() {
+        $("#basket").click(function() {
+          // 여기에 선택한 품목을 Cart에 추가하는 코드를 작성합니다.
 
 
+          $.ajax({
+            type: "POST",
+            url: "./cart", // 컨트롤러 경로 설정
+            success: function(response) {
+            	  if(confirm("장바구니에 추가 되었습니다. 장바구니로 이동하시겠습니까?")){
+            		 location.href='./cart';
+            	  
+            	  }else{
+            			document.location.href = document.location.href;
+            	  }
+            	  
+            	  },
+            	  
+            error: function() {
+              // 실패한 경우 오류 메시지를 처리할 수 있습니다.
+              alert("장바구니 추가 중 오류가 발생했습니다.");
+            }
+          });
+        });
+      }); */
+
+    
+    
+   
     </script>
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
@@ -118,7 +146,7 @@
                    <div class="col-sm-4 mb-sm-20">
                      <input class="form-control input-lg" type="number" name="amount"  max="${detail.bstock }" min="1" required="required"/>
                     </div>
-                   <div class="col-sm-8"><button class="btn btn-lg btn-block btn-round btn-b" type="submit">장바구니 담기</button></div>
+                   <div class="col-sm-8"><button class="btn btn-lg btn-block btn-round btn-b" type="submit" id="basket" onclick="basket()">장바구니 담기</button></div>
                   </c:if> 
                  </form>
                 </div>

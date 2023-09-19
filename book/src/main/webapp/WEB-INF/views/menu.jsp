@@ -99,6 +99,7 @@
 	                <ul class="dropdown-menu" role="menu">
 	                  <li><a href="/mypage/main">메인</a></li>
 	                  <li><a href="/mypage/zzim">찜목록</a></li>
+	                  <li><a href="/mypage/cart">장바구니</a></li>
 	                  <li><a href="/mypage/buy">구매목록</a></li>
 	                  <li><a href="/mypage/rent">대여내역</a></li>
 	                  <li><a href="/mypage/board">게시물 관리</a></li>
