@@ -20,5 +20,10 @@
 	    WHERE mid=#{mid} AND memail=#{memail}
 	</update>
 	
+	<update id="editpw" parameterType="JoinDTO" >
+		UPDATE members
+	    SET mpw=#{mpw}
+	    WHERE mid=#{mid}
+	</update>
 
 </mapper>

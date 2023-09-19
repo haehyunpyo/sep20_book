@@ -11,4 +11,6 @@ public interface UserDAO {
 
 	int setPw(UserDTO dto);
 
+	int editpw(UserDTO dto);
+
 }

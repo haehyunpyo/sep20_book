@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class UserDTO {
 	private int mno, count;
-	private String mname, mid, maddr, mbrith, memail, mphone;
+	private String mname, mid, mpw, maddr, mbrith, memail, mphone;
 }

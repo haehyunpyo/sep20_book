@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.book.web.rental.RentalDAO">
+
+	<insert id="rental" parameterType="Map">
+	  INSERT INTO rental (rsdate, rddate, bkno, rdel, mid)
+	  VALUES (#{rsdate}, #{rddate}, #{bkno}, 1, #{mid})
+	</insert>
+	
+	
+	<update id="returnBook" parameterType="Map">
+		UPDATE rental
+		SET rdel = 0
+		WHERE bkno = #{bkno} AND mid = #{mid} AND rno = (select MIN(rno) FROM rental WHERE bkno = #{bkno} and mid=#{mid})
+	</update>
+
+</mapper>

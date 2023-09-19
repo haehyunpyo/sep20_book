@@ -20,6 +20,11 @@ public class UserService {
 	public int setPw(UserDTO dto) {
 		 return userDAO.setPw(dto);
 	}
+
+	public int editpw(UserDTO dto) {
+		return userDAO.editpw(dto);
+	}
+
 	
 	
 	

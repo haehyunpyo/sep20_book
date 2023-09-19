@@ -53,6 +53,7 @@ public interface BooklistDAO {
 
 	void delete4(CartDTO cart);
 
+	Map<String, Object> rentaldata(int bkno);
 
 	
 /*-----------------------------------------------------------------*/

@@ -99,6 +99,10 @@ public class BooklistService {
 		
 	}
 
+	public Map<String, Object> rentaldata(int bkno) {
+		return booklistDAO.rentaldata(bkno);
+	}
+
 
 	
 	

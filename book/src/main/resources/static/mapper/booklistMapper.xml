@@ -202,9 +202,6 @@ WHERE mid=#{mid} AND cdel = 1
   UPDATE coupons
   set cdel = 0
   WHERE mid=#{mid}
- 
- 
- 
  </update>
  
 	
@@ -213,8 +210,13 @@ WHERE mid=#{mid} AND cdel = 1
 		INSERT INTO rental (rsdate, rddate, bkno, rdel, mid)
 		VALUES (#{rsdate}, #{rddate}, #{bkno}, 1, #{mid})
 	</update>	
-	
-	
+
+
+<select resultType="Map" parameterType="Integer" id="rentaldata">
+	SELECT *
+	FROM rental
+	WHERE bkno = #{bkno} and rno = (select MAX(rno) FROM rental WHERE bkno = #{bkno}) 
+</select>
 
 
 </mapper>
