@@ -111,8 +111,6 @@
                   let rddateO = new Date(rddateStr);
                   rddateA = dateCal(rddateO);
                   console.log("rddateA : " + rddateA);
-
-
                   // 오늘날짜
                   console.log("todayO : " + todayO);
                   console.log("todayA : " + todayA);
@@ -392,8 +390,6 @@
       });
      </script>
 
-
-
   </head>
   <body data-spy="scroll" data-target=".onpage-navigation" data-offset="60">
   <%@ include file="menu.jsp"%>
@@ -515,13 +511,6 @@
 							</div>
 							<!-- ------------------------------------------------------------------- -->
 
-							<div class="row mb-20">
-                  <div class="col-sm-12">
-                    <div class="product_meta" >태그 : <a href="./booklist?searchN=write&searchV=${bookdetail.bkwrite }" >#${bookdetail.bkwrite }</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
            <!--  </form> -->
             
