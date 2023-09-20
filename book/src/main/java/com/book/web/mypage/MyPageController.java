@@ -341,4 +341,17 @@ public class MyPageController {
 			return "redirect:/login";
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

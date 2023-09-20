@@ -1,5 +1,7 @@
 package com.book.web.user;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,10 @@ public class UserService {
 
 	public int editpw(UserDTO dto) {
 		return userDAO.editpw(dto);
+	}
+
+	public UserDTO userinfo(UserDTO dto) {
+		return userDAO.userinfo(dto);
 	}
 
 	

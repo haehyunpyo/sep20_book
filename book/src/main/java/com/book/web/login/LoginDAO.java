@@ -11,13 +11,13 @@ public interface LoginDAO {
 
 	int autoCheck(Map<String, Object> map);
 
-	int hasKakaoUser(Map<String, Object> kUser);
+	Map<String, Object> hasKakaoUser(Map<String, Object> kUser);
 
-	int hasNaverUser(Map<String, Object> nUser);
+	Map<String, Object> hasNaverUser(Map<String, Object> nUser);
 
 	Map<String, Object> autologin(String suserID);
 
-	int hasAuto(Map<String, Object> map);
+	Map<String, Object> hasAuto(Map<String, Object> map);
 
 	int autoLogout(String id);
 

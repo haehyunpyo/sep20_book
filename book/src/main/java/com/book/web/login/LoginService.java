@@ -278,11 +278,11 @@ public class LoginService {
 		return loginDAO.autoCheck(map);
 	}
 
-	public int hasKakaoUser(Map<String, Object> kUser) {
+	public Map<String, Object> hasKakaoUser(Map<String, Object> kUser) {
 		return loginDAO.hasKakaoUser(kUser);
 	}
 
-	public int hasNaverUser(Map<String, Object> nUser) {
+	public Map<String, Object> hasNaverUser(Map<String, Object> nUser) {
 		return loginDAO.hasNaverUser(nUser);
 	}
 
@@ -290,7 +290,7 @@ public class LoginService {
 		return loginDAO.autologin(suserID);
 	}
 
-	public int hasAuto(Map<String, Object> map) {
+	public Map<String, Object> hasAuto(Map<String, Object> map) {
 		return loginDAO.hasAuto(map);
 	}
 

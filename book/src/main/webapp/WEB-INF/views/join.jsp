@@ -110,7 +110,7 @@
 			
 				if(Fmail.match(replaceKorean) || Fmail.match(replaceChar)){
 					Fmail = Fmail.replace(replaceKorean, "").replace(replaceChar, "");
-					Swal.fire("올바른 메일주소를 입력해주세요(정규식검사)")
+					Swal.fire("올바른 메일주소를 입력해주세요")
 					$("#memail").val("");
 					$("#Opt").prop("selected", true);
 					return false; 
@@ -144,12 +144,12 @@
 				//alert("memail: " + memail.val());
 				
 			} else {
-				Swal.fire("올바른 메일주소를 입력해주세요(앞메일주소)");
+				Swal.fire("올바른 메일주소를 입력해주세요");
 				return false; 
 			} 
 		
      	} else {
-			Swal.fire("올바른 메일주소를 입력해주세요(뒷메일주소)");
+			Swal.fire("올바른 메일주소를 입력해주세요");
 			return false; 
      }	
 	

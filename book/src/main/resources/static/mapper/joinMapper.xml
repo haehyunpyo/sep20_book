@@ -12,8 +12,8 @@
 	</select>
 	
 	<insert id="setKakaoUser" parameterType="Map">
-	 	INSERT INTO members (mid, mpw, memail, mconnect)
-     	VALUES(#{mid}, 1234, #{memail}, 1)
+	 	INSERT INTO members (mid, mpw, mname, memail, mconnect)
+     	VALUES(#{mid}, 1234, #{mname}, #{memail}, 1)
 	</insert>
 
 	<insert id="setNaverUser" parameterType="Map">

@@ -1,5 +1,7 @@
 package com.book.web.user;
 
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
@@ -12,5 +14,7 @@ public interface UserDAO {
 	int setPw(UserDTO dto);
 
 	int editpw(UserDTO dto);
+
+	UserDTO userinfo(UserDTO dto);
 
 }

@@ -26,4 +26,10 @@
 	    WHERE mid=#{mid}
 	</update>
 
+	<select id="userinfo" parameterType="UserDTO" resultType="UserDTO">
+		SELECT *
+		FROM members
+		WHERE mid=#{mid}
+	</select>
+	
 </mapper>

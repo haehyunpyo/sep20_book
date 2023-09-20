@@ -1,7 +1,8 @@
 package com.book.web.user;
 
-import java.lang.ProcessBuilder.Redirect;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import springfox.documentation.spring.web.json.Json;
 
 @Controller
 public class UserController {
@@ -40,13 +39,8 @@ public class UserController {
 		return json;
 	}
 	
-	// 비밀번호 수정페이지(임시)
-	@GetMapping("/myinfo")
-	public String myinfo() {
-		return "myinfo";
-	}
 	
-	
+	// 아이디찾기
 	@ResponseBody
 	@PostMapping("/findPW")
 	public String findpw(UserDTO dto) {
@@ -68,12 +62,14 @@ public class UserController {
 		return json.toString();
 	}
 	
+	// 비밀번호찾기
 	@GetMapping("/changepw")
 	public String changepw(@RequestParam (value = "user", required = false, defaultValue = "none") String mid, Model model) {
 		model.addAttribute("mid", mid);
 		return "changepw";
 	}
 	
+	// 비밀번호수정
 	@ResponseBody
 	@PostMapping("/editpw")
 	public String editpw(UserDTO dto) {
@@ -89,6 +85,24 @@ public class UserController {
 		
 		return json.toString();
 	}
+	
+	
+	@GetMapping("/userinfo")
+	public String userinfo(UserDTO dto, Model model, HttpSession session) {
+		
+		if(session.getAttribute("mid") != null) {
+			
+			dto.setMid(String.valueOf(session.getAttribute("mid")));
+			UserDTO info = userService.userinfo(dto);
+			System.out.println(info);
+			//UserDTO(mno=135, count=0, mname=해현, mid=pororo, mpw=12345, maddr=대전 동구 판교1길 3,경기 성남시 분당구 대왕판교로 477, mbrith=null, memail=pororo@naver.com, mphone=01046521234)
+			model.addAttribute("info", info);
+			
+			return "userinfo";
+		}
+		return "/login";
+	}
+	
 	
 	
 }

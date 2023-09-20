@@ -11,7 +11,7 @@
               <li><a href="/main">메인</a>
               </li>
               
-              <li class="dropdown"><a class="dropdown-toggle" href="./booklist?bkcate=0" data-toggle="dropdown">책</a>
+              <li class="dropdown"><a class="dropdown-toggle" href="/booklist?bkcate=0" data-toggle="dropdown">책</a>
                 <ul class="dropdown-menu" role="menu">
                   <li><a href="/booklist">도서</a>
                   </li>
@@ -97,25 +97,24 @@
                <c:if test="${sessionScope.mname ne null && sessionScope.mname ne 'admin'}">
 	              <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown">마이페이지</a>
 	                <ul class="dropdown-menu" role="menu">
-	                  <li><a href="/mypage/main">메인</a></li>
 	                  <li><a href="/mypage/zzim">찜목록</a></li>
 	                  <li><a href="/mypage/buy">구매목록</a></li>
 	                  <li><a href="/mypage/rent">대여내역</a></li>
 	                  <li><a href="/mypage/board">게시물 관리</a></li>
 	                  <li><a href="/mypage/comment">댓글 관리</a></li>
+	                  <li><a href="/userinfo">회원정보</a></li>
 	                  <li><a href="/mypage/info">회원정보관리</a></li>
 	                </ul>
 	              </li>
               </c:if>
               <c:choose>
 	              <c:when test="${sessionScope.mid eq null}">
-	              	<li class="dropdown"><a href="./login">로그인</a></li>
-	              	<span>${sessionScope.mname }</span>
+	              	<li class="dropdown"><a href="/login">로그인</a></li>
 	              </c:when>
 	              <c:otherwise>
-	              <li class="dropdown"><a href="./cart">장바구니</a></li>
-	             	 <li class="dropdown"><a href="./logout">로그아웃</a></li>
-           	         <span>${sessionScope.mname }</span>
+	              <li class="dropdown"><a href="/cart">장바구니</a></li>
+	             	 <li class="dropdown"><a href="/logout">로그아웃</a></li>
+  	 	             <span style="color: white;">${sessionScope.mname }</span>
 	              </c:otherwise>
               </c:choose>
             </ul>

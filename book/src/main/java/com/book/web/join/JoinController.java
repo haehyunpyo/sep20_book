@@ -78,23 +78,28 @@ public class JoinController {
 	@PostMapping("/login/subjoin")
 	public String subjoin(JoinDTO joinDTO, HttpSession session) {
 		
-		
+		System.out.println("subjoin제출값 : "+joinDTO);
+
 		if(session.getAttribute("withK") != null) {
+			
 			joinDTO.setMid(String.valueOf(session.getAttribute("mid")));
 			joinDTO.setWithK(String.valueOf(session.getAttribute("withK")));
-			
+			session.setAttribute("mname", joinDTO.getMname());
+			session.setAttribute("mgrade", 1);
+
 			joinService.setKakaoUser(joinDTO);
 			
 		} else if(session.getAttribute("withN") != null) {
 			
 			joinDTO.setMid(String.valueOf(session.getAttribute("mid")));
 			joinDTO.setWithK(String.valueOf(session.getAttribute("withN")));
-			System.out.println("jsp에서 오는 값 : " + joinDTO);
+			session.setAttribute("mname", joinDTO.getMname());
+			session.setAttribute("mgrade", 1);
 			
 			joinService.setNaverUser(joinDTO);
 		}
 
-		return "redirect:/";
+		return "redirect:/main";
 	}
 	
 }

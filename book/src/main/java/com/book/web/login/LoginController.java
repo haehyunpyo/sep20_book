@@ -30,7 +30,7 @@ public class LoginController {
 	public String login(HttpSession session) {
 		
 		if(session.getAttribute("mid") != null) {  // 로그인상태에서 login페이지 이동 막기
-			return "redirect:/";
+			return "redirect:/main";
 		}
 		return "login";
 	}
@@ -45,38 +45,39 @@ public class LoginController {
 		if (String.valueOf(result.get("count")).equals("1")) {
 			session.setAttribute("mid", result.get("mid"));
 			session.setAttribute("mname", result.get("mname"));
+			session.setAttribute("mgrade", result.get("mgrade"));
 			System.out.println("Glogin완");
-			return "redirect:/";
+			return "redirect:/main";
 		}
 		// 계정불일치 => 다시 로그인페이지로
 		return "redirect:/login";	
 	}
 	
 	// 자동로그인기록이 있을때 로그인진행
-	@ResponseBody
-	@PostMapping("/login")
-	public String login(@RequestParam Map<String, Object> map, HttpSession session) {
-			JSONObject json = new JSONObject();
-			
-			System.out.println(map); 
-			int auto = loginService.hasAuto(map); // sid, setS
-			System.out.println("auto값 : " + auto);
-
-			if(auto == 1) {	// 자동로그인체크 + 계정일치
-				if(map.get("setS") != null) {
-					
-					session.setAttribute("mid", map.get("sid"));
-					System.out.println("자동로그인완");
-					json.put("auto", auto); // auto = 1
-					return json.toString();
-				} 
-			} else {	// 자동로그인체크 + 계정불일치
-				json.put("auto", auto); // auto = 0
-				return json.toString();			
-			}
+		@ResponseBody
+		@PostMapping("/login")
+		public String login(@RequestParam Map<String, Object> map, HttpSession session) {
+				JSONObject json = new JSONObject();
 				
-		return json.toString();
-	}		
+				//System.out.println(map); 
+				Map<String, Object> autoMap = loginService.hasAuto(map); // sid, setS
+				
+				if(String.valueOf(autoMap.get("auto")).equals("1")) {	// 자동로그인체크 + 계정일치
+					if(map.get("setS") != null) {
+						
+						session.setAttribute("mid", autoMap.get("sid"));
+						session.setAttribute("mname", autoMap.get("mname"));
+						session.setAttribute("mgrade", autoMap.get("mgrade"));
+						json.put("auto", autoMap.get("auto")); // auto = 1
+						return json.toString();
+					} 
+				} else {	// 자동로그인체크 + 계정불일치
+					json.put("auto", autoMap.get("auto")); // auto = 0
+					return json.toString();			
+				}
+					
+			return json.toString();
+		}		
 				
 	// 자동로그인 체크시 db에 기록
 	  @ResponseBody
@@ -99,9 +100,9 @@ public class LoginController {
 		  
 			if(session.getAttribute("mid") != null) {
 				session.invalidate();
-				return "redirect:/index";
+				return "redirect:/login";
 			}
-			return "redirect:/index";
+			return "redirect:/main";
 		}
 	  
 	  // 자동로그인 해제
@@ -130,15 +131,18 @@ public class LoginController {
 			// System.out.println(kUser); // {kid=3002751483, kemail=gogus228@hanmail.net}
 
 			// kakao 로그인기록 확인
-			int result = loginService.hasKakaoUser(kUser);	// 0 또는 1
-
+			Map<String, Object> result = loginService.hasKakaoUser(kUser);	// 0 또는 1
+			System.out.println(result.get("count"));
+			
 			if (kUser != null) { // kakao연결성공
 
-				if (result == 1) {
+				if (String.valueOf(result.get("count")).equals("1")) {
 					// db에 kakao계정정보 있다면 로그인진행
 					session.setAttribute("mid", kUser.get("kid"));
+					session.setAttribute("mname", result.get("mname"));
+					session.setAttribute("mgrade", result.get("mgrade"));
 					session.setAttribute("withK", "1");	// 로그아웃시 활용
-					return "redirect:/";
+					return "redirect:/main";
 
 				} else {
 					//db에 kakao계정정보 없다면 생성(id&email) => subjoin에서 진행
@@ -165,23 +169,27 @@ public class LoginController {
 			//System.out.println(nUser);
 			
 			// 네이버 로그인기록 확인
-			int result = loginService.hasNaverUser(nUser); // 0 또는 1
+			Map<String, Object> result = loginService.hasNaverUser(nUser); // 0 또는 1
+			System.out.println("sp");
 			
 			if(nUser != null) {		// 네이버 연결성공
 				
 				// db에 naver 계정정보 있다면 로그인진행
-				if(result == 1) {
+				if(String.valueOf(result.get("count")).equals("1")) {
 					session.setAttribute("mid", nUser.get("Nid"));
+					session.setAttribute("mname", nUser.get("Nname"));
+					session.setAttribute("mgrade", result.get("mgrade"));
 					session.setAttribute("withN", "2");	// 로그아웃시 활용
-					return "redirect:/";
+					return "redirect:/main";
 					
 				} else {	
 					// db에 naver계정정보 없다면 생성(id&email&name&phone) => subjoin에서 진행
 					session.setAttribute("mid", nUser.get("Nid")); 		// Nid 세션에 저장
+					session.setAttribute("mname", nUser.get("Nname"));
+					session.setAttribute("mgrade", result.get("mgrade"));
 					session.setAttribute("withN", "2");					// 로그아웃시 활용
 					
 					model.addAttribute("memail", nUser.get("Nemail"));	// db에 넣을 추가정보들
-					model.addAttribute("mname", nUser.get("Nname"));
 					model.addAttribute("mphone", nUser.get("Nphone"));
 					return "subjoin";
 				}
@@ -196,7 +204,7 @@ public class LoginController {
 	public String finduser(HttpSession session) {
 		
 		if(session.getAttribute("mid") != null) {	// 로그아웃상태에서 finduser페이지 이동 막기
-			return "redirect:/";
+			return "redirect:/main";
 		}
 		return "finduser";
 	}

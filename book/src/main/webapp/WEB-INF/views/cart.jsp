@@ -253,7 +253,7 @@ $(".pr-remove").click(function(){
                                <!-- <form action="./check" method="post"> -->
 
 										<c:if
-											test="${not empty row.bkimg and not empty row.bkscontent and not empty row.price and not empty row.amount and not empty row.total}"> --%>
+											test="${not empty row.bkimg and not empty row.bkscontent and not empty row.price and not empty row.amount and not empty row.total}">
 											<tr class="tree">
 												<td class="hidden-xs" style="width: 20%;"><a href="#"><img
 														src="/img/bookimg/${row.bkimg}" alt="책사진" width="200" height="300" /></a></td>

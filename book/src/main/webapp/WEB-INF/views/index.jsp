@@ -92,28 +92,9 @@ function kakaoLogout(){
 	location.href="https://kauth.kakao.com/oauth/logout?client_id=3ecca13d973c6d11e752a114a1e14922&logout_redirect_uri=http://localhost/logout/kakao";
 	window.location.href = "/logout";
 }
-function naverLogout(){
-	let Npopup = window.open("https://nid.naver.com/nidlogin.logout", "_blank", "width=500, height=500");
-	
-	Npopup.addEventListener("load", function() {
-	    
-		// 팝업 창의 현재 URL 확인
-	    let currentUrl = Npopup.location.href;
-	    
-	    // 원하는 URL 조건에 따라 팝업 창을 닫음
-	    if (currentUrl.includes("www.naver.com")) {
-	        Npopup.close();
-	    }
-	});
 
-	// 팝업 창을 닫는 함수 실행
-	setTimeout(function() {
-	    if (Npopup) {
-	        Npopup.close();
-	    }
-	}, 3000);
-	
-	window.location.href = "/logout";
+function naverLogout(){
+	window.location.href = "https://nid.naver.com/nidlogin.logout";
 }
 
 
@@ -227,7 +208,9 @@ function naverLogout(){
 			<button type="button" id="logoutbtn">
 				로그아웃
 			</button>
-			<span>id가 세션에 있음 떠라 : ${sessionScope.mid}</span>
+			<span>id가 세션에 있음 떠라 : ${sessionScope.mid}</span> ||
+			<span>mname이 세션에 있음 떠라 : ${sessionScope.mgrade}</span> ||
+			<span>mgrade가 세션에 있음 떠라 : ${sessionScope.mgrade}</span>
 		</div>
 		
 	  	<div>
