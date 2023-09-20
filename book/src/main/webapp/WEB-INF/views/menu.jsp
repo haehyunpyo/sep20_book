@@ -113,6 +113,7 @@
 	              	<span>${sessionScope.mname }</span>
 	              </c:when>
 	              <c:otherwise>
+	              <li class="dropdown"><a href="./cart">장바구니</a></li>
 	             	 <li class="dropdown"><a href="./logout">로그아웃</a></li>
            	         <span>${sessionScope.mname }</span>
 	              </c:otherwise>

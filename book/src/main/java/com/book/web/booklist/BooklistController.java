@@ -174,6 +174,7 @@ public class BooklistController {
 	
 	/*--------------------------------------------------------상민-----------------------------------------------------------*/
 	
+
 	@PostMapping("/cart")
 	public String detail2(CartDTO dto, HttpSession session) {
 
@@ -199,6 +200,8 @@ public class BooklistController {
 			booklistService.detail2(dto);
 		}
 
+		
+		
 		return "redirect:/cart";
 	}
 
@@ -213,7 +216,7 @@ public class BooklistController {
 		
 		List<Map<String, Object>> coupon = booklistService.coupon(dto);
         model.addAttribute("coupon", coupon);
-	//	System.out.println(coupon);
+	
 		return "/cart";
 	}
 
@@ -232,10 +235,12 @@ public class BooklistController {
 	}
 
 	@GetMapping("/purchase")
-	public String purchase(Model model, HttpSession session) {
-
+	public String purchase(Model model, HttpSession session, @RequestParam("mtotal") int mtotal) {
+		System.out.println("mtotal 값 : " + mtotal);
 		List<Map<String, Object>> map = booklistService.purchase((String) session.getAttribute("mid"));
 
+
+        model.addAttribute("mtotal", mtotal);
 		// System.out.println(map);
 		model.addAttribute("map", map);
 
@@ -269,31 +274,28 @@ public class BooklistController {
 		return "redirect:/booklist";
 	}
 	
-	@PostMapping("/coupon")
-	public String discount(HttpSession session,@RequestParam Map<String, Object> map,CartDTO cart) {
-		String mid = (String)session.getAttribute("mid");
-		cart.setMid(mid);
-		map.put("mid", mid);
-		System.out.println(map.get("cartno"));
-		
-	
-		
-		
-		  List<Map<String, Object>> cartlist = booklistService.cart(cart);
-		  System.out.println(cartlist);
-		  for (int i = 0; i < cartlist.size(); i++) {
-		  booklistService.update(cartlist.get(i));
-		  
-		  }
-		 
-	
-	
-	
-
-		
-		  return "redirect:/purchase";
-	}
-
+	/*
+	 * @PostMapping("/coupon") public String discount(HttpSession
+	 * session,@RequestParam Map<String, Object> map,CartDTO cart) { String mid =
+	 * (String)session.getAttribute("mid"); cart.setMid(mid); map.put("mid", mid);
+	 * System.out.println(map.get("cartno"));
+	 * 
+	 * 
+	 * 
+	 * 
+	 * List<Map<String, Object>> cartlist = booklistService.cart(cart);
+	 * System.out.println(cartlist); for (int i = 0; i < cartlist.size(); i++) {
+	 * booklistService.update(cartlist.get(i));
+	 * 
+	 * }
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * return "redirect:/purchase"; }
+	 */
 }
 	
 	

@@ -2,6 +2,8 @@
 
 /* .container 클래스로 전체 컨테이너를 감싸줍니다. */
 .content {
+
+
 	display: flex; /* Flexbox를 사용하여 내부 요소 배치 */
 	justify-content: space-between; /* 요소 사이의 공간을 동일하게 배분하여 왼쪽과 오른쪽으로 정렬 */
 	flex-direction: column;
