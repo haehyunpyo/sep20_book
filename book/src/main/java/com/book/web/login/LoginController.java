@@ -22,7 +22,7 @@ public class LoginController {
 	
 	@GetMapping({"/", "/index"})
 	public String index() {
-		return "index";
+		return "/main";
 	}
 	
 	
@@ -41,11 +41,12 @@ public class LoginController {
 
 		//System.out.println(map);
 		Map<String, Object> result = loginService.login(map);
-
+		
 		if (String.valueOf(result.get("count")).equals("1")) {
 			session.setAttribute("mid", result.get("mid"));
 			session.setAttribute("mname", result.get("mname"));
 			session.setAttribute("mgrade", result.get("mgrade"));
+			session.setAttribute("mno", result.get("mno"));
 			System.out.println("Glogin완");
 			return "redirect:/main";
 		}
@@ -59,15 +60,16 @@ public class LoginController {
 		public String login(@RequestParam Map<String, Object> map, HttpSession session) {
 				JSONObject json = new JSONObject();
 				
-				//System.out.println(map); 
+				System.out.println("자동map : " + map); 
 				Map<String, Object> autoMap = loginService.hasAuto(map); // sid, setS
 				
 				if(String.valueOf(autoMap.get("auto")).equals("1")) {	// 자동로그인체크 + 계정일치
 					if(map.get("setS") != null) {
-						
-						session.setAttribute("mid", autoMap.get("sid"));
+						System.out.println("autoMap :" +autoMap);
+						session.setAttribute("mid", autoMap.get("mid"));
 						session.setAttribute("mname", autoMap.get("mname"));
 						session.setAttribute("mgrade", autoMap.get("mgrade"));
+						session.setAttribute("mno", autoMap.get("mno"));
 						json.put("auto", autoMap.get("auto")); // auto = 1
 						return json.toString();
 					} 
@@ -98,12 +100,14 @@ public class LoginController {
 	  @GetMapping("/logout")
 		public String logout(HttpSession session) {
 		  
+		  	System.out.println(session.getAttribute("mid"));
 			if(session.getAttribute("mid") != null) {
 				session.invalidate();
-				return "redirect:/login";
+				return "redirect:/main";
 			}
 			return "redirect:/main";
 		}
+	  
 	  
 	  // 자동로그인 해제
 	  @ResponseBody
@@ -141,6 +145,7 @@ public class LoginController {
 					session.setAttribute("mid", kUser.get("kid"));
 					session.setAttribute("mname", result.get("mname"));
 					session.setAttribute("mgrade", result.get("mgrade"));
+					session.setAttribute("mno", result.get("mno"));
 					session.setAttribute("withK", "1");	// 로그아웃시 활용
 					return "redirect:/main";
 
@@ -170,7 +175,6 @@ public class LoginController {
 			
 			// 네이버 로그인기록 확인
 			Map<String, Object> result = loginService.hasNaverUser(nUser); // 0 또는 1
-			System.out.println("sp");
 			
 			if(nUser != null) {		// 네이버 연결성공
 				
@@ -179,6 +183,7 @@ public class LoginController {
 					session.setAttribute("mid", nUser.get("Nid"));
 					session.setAttribute("mname", nUser.get("Nname"));
 					session.setAttribute("mgrade", result.get("mgrade"));
+					session.setAttribute("mno", result.get("mno"));
 					session.setAttribute("withN", "2");	// 로그아웃시 활용
 					return "redirect:/main";
 					
@@ -187,6 +192,7 @@ public class LoginController {
 					session.setAttribute("mid", nUser.get("Nid")); 		// Nid 세션에 저장
 					session.setAttribute("mname", nUser.get("Nname"));
 					session.setAttribute("mgrade", result.get("mgrade"));
+					session.setAttribute("mno", result.get("mno"));
 					session.setAttribute("withN", "2");					// 로그아웃시 활용
 					
 					model.addAttribute("memail", nUser.get("Nemail"));	// db에 넣을 추가정보들

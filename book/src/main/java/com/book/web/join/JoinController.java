@@ -82,6 +82,7 @@ public class JoinController {
 
 		if(session.getAttribute("withK") != null) {
 			
+			System.out.println(joinDTO);
 			joinDTO.setMid(String.valueOf(session.getAttribute("mid")));
 			joinDTO.setWithK(String.valueOf(session.getAttribute("withK")));
 			session.setAttribute("mname", joinDTO.getMname());

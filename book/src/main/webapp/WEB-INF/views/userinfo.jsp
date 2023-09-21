@@ -13,7 +13,7 @@
     Document Title
     =============================================
     -->
-    <title>우리동네 | 동네북</title>
+    <title>User Info</title>
     <!--  
     Favicons
     =============================================
@@ -55,12 +55,110 @@
     <link href="assets/lib/simple-text-rotator/simpletextrotator.css" rel="stylesheet">
     <!-- Main stylesheet and color file-->
     <link href="assets/css/style.css" rel="stylesheet">
+   <link href="../css/userinfo.css" rel="stylesheet">
     <link id="color-scheme" href="assets/css/colors/default.css" rel="stylesheet">
-    <script type="text/javascript">
-    
- 
+    <script src="./js/jquery-3.7.0.min.js"></script>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="./js//jquery-3.7.0.min.js"></script>
+<script type="text/javascript">
 
-    </script>
+function kakaoLogout(){
+	location.href="https://kauth.kakao.com/oauth/logout?client_id=3ecca13d973c6d11e752a114a1e14922&logout_redirect_uri=http://localhost/logout/kakao";
+	window.location.href = "/logout";
+}
+
+function naverLogout(){
+	window.location.href = "https://nid.naver.com/nidlogin.logout";
+}
+
+	$(function(){
+	
+		let sid = getCookie("SuserID");
+		let setS = getCookie("setS");
+		let setY = getCookie("setY");
+		
+		// 로그아웃버튼 클릭
+		$("#logoutbtn").click(function(){
+			Logout();
+		});
+		
+		// 자동로그인 해제버튼 클릭
+		$("#outauto").click(function(){
+			autoLogout();
+		});
+		
+		// 쿠키 삭제
+		function delCookie(cookieName){
+			let expireDate = new Date();
+			expireDate.setDate(expireDate.getDate() - 1);
+			document.cookie = cookieName +"="+ "; expires="+ expireDate.toUTCString()
+		}
+		
+		// 쿠키가져오기
+		function getCookie(cookieName){
+			let cname, cvalue;
+			let val = document.cookie.split(";");
+			for(let i = 0; i < val.length; i++){
+				cname = val[i].substr(0, val[i].indexOf("="));
+				cvalue = val[i].substr(val[i].indexOf("=")+1);
+				cname = cname.trim();
+				
+				if(cname == cookieName){
+					return cvalue;
+				}
+			}
+		}
+		
+		// 로그아웃 진행
+		function Logout(){
+			
+			if(${sessionScope.withN eq 2}){	// 네이버로그아웃 이후 로그아웃실행 
+				naverLogout();
+			} else if(${sessionScope.withK eq 1}){ // 카카오로그아웃 이후 로그아웃실행 
+				kakaoLogout();
+			} 
+				window.location.href = "/logout";	// 일반로그아웃
+			
+		}
+		
+		// 자동로그인 해제 진행
+		function autoLogout(){
+
+			// auto가 1이라면 0으로 변경
+			$.ajax({
+				url : "./autologout",
+				type : "post",
+				data : {sid : sid},
+					dataType : "json",
+					success : function(data) {
+						if(data.result == 1){
+							alert("자동로그인이 해제되었습니다.")
+							delCookie("SuserID");
+							delCookie("setS");
+							Logout();
+						}
+					},
+					error : function(error) {
+						alert("에러발생");
+						}
+				});
+		}
+		
+		
+		$("#toInfo").click(function(){
+			window.location.href = "/mypage/info";		
+		});
+		
+		
+		
+		
+		
+	});
+	
+	
+
+</script>
   </head>
   
   <!-- --------------------------------------------------- 상단 ---------------------------------------------------------------- -->   
@@ -69,52 +167,55 @@
   <%@ include file="menu.jsp"%>
     <main>
       <div class="main">
-       <hr class="divider-w">
-        <section class="module-small">
-               <h1>회원정보</h1>
-        </section>
 
-			<div class="container">
-				<div class="idBox">
-					<label for="mid">아이디 : </label>
-					<input class="input" type="text" id="mid" value="${info.mid}" readonly />
-				</div>
-				<div class="nameBox">
-					<label for="mname">이름 : </label>
-					<input class="input" type="text" id="mname" value="${info.mname}" readonly />
-				</div>
-				<div class="addrBox">
-					<label for="maddr">주소 : </label>
-					<input class="input" type="text" id="maddr" value="${info.maddr}" readonly /><br>
-				</div>
-				<div class="brithBox">
-					<label for="mbirth">생년월일 : </label>
-					<input class="input" type="date" id="mbirth" value="${info.mbirth}" readonly /><br>
-				</div>
-				<div class="phoneBox">
-				<c:choose>
-					<c:when test="${info.mphone eq null}"> id : ${sessionScope.mid} _ 로그인완
-						<label for="mphone">전화번호 : </label>
-						<input class="input" type="text" id="mphone" value="정보가 없습니다." readonly />
-					</c:when>
-					<c:otherwise>
-						<label for="mphone">전화번호 : </label>
-						<input class="input" type="text" id="mphone" value="${info.mphone}" readonly />
-					</c:otherwise>
-				</c:choose>
-				</div>
-				<div class="emailBox">
-					<label for="memail">이메일주소 : </label>
-					<input class="input" type="text" id="memail" value="${info.memail}" readonly />
-				</div>
-				<div class="btnBox">
-					<button class="Jbutton" type="button" id="">회원정보수정</button>
-				</div>
+         <div class="userBox" align="center">
+               <h2>회원정보</h2>
+            <div class="idBox">
+               <label for="mid">아이디</label>
+               <input class="input" type="text" id="mid" value="${info.mid}" readonly />
+            </div>
+            <div class="nameBox">
+               <label for="mname">이름</label>
+               <input class="input" type="text" id="mname" value="${info.mname}" readonly />
+            </div>
+            <div class="addrBox">
+               <label for="maddr">주소</label>
+               <input class="input" type="text" id="maddr" value="${info.maddr}" readonly /><br>
+            </div>
+            <div class="brithBox">
+               <label for="mbirth">생년월일</label>
+               <input class="input" type="date" id="mbirth" value="${info.mbirth}" readonly /><br>
+            </div>
+            <div class="phoneBox">
+            <c:choose>
+               <c:when test="${info.mphone eq null}"> id : ${sessionScope.mid} _ 로그인완
+                  <label for="mphone">전화번호 : </label>
+                  <input class="input" type="text" id="mphone" value="정보가 없습니다." readonly />
+               </c:when>
+               <c:otherwise>
+                  <label for="mphone">전화번호</label>
+                  <input class="input" type="text" id="mphone" value="${info.mphone}" readonly />
+               </c:otherwise>
+            </c:choose>
+            </div>
+            <div class="emailBox">
+               <label for="memail">이메일주소</label>
+               <input class="input" type="text" id="memail" value="${info.memail}" readonly />
+            </div>
+            <div class="btnBox">
+            <div class="editbtnBox">
+               <button type="button" id="toInfo">회원정보수정</button>
+            </div>
+            <div class="autobtnBox">
+      			<button type="button" id="outauto">자동로그인 해제</button>
+      			아이디 : ${sessionScope.mid} || mgrade : ${sessionScope.mgrade} || mno : ${sessionScope.mno}
+      		</div>
+            </div>
 
-			</div>
+         </div>
 
 
-			<!-- --------------------------------------------------- 하단 풋---------------------------------------------------------------- -->
+         <!-- --------------------------------------------------- 하단 풋---------------------------------------------------------------- -->
         <div class="module-small bg-dark">
           <div class="container">
             <div class="row">

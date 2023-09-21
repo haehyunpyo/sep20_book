@@ -22,6 +22,7 @@ public class MainController {
 	@Autowired
 	private MainService mainService;
 	
+	
 	@GetMapping("/main")
 	public String main(Model model,HttpSession session,@RequestParam Map<String, Object> map) {
 		

@@ -94,7 +94,7 @@ public class UserController {
 			
 			dto.setMid(String.valueOf(session.getAttribute("mid")));
 			UserDTO info = userService.userinfo(dto);
-			System.out.println(info);
+			//System.out.println(info);
 			//UserDTO(mno=135, count=0, mname=해현, mid=pororo, mpw=12345, maddr=대전 동구 판교1길 3,경기 성남시 분당구 대왕판교로 477, mbrith=null, memail=pororo@naver.com, mphone=01046521234)
 			model.addAttribute("info", info);
 			

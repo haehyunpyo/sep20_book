@@ -3,19 +3,19 @@
 <mapper namespace="com.book.web.login.LoginDAO">
 
 	<select id="login" parameterType="Map" resultType="Map">
-		SELECT count(*) as count, mid, mname, mgrade
+		SELECT count(*) as count, mid, mname, mgrade, mno
 		FROM members
 		WHERE mid=#{id} AND mpw=#{pw}
 	</select>
 
 	<select id="hasKakaoUser" parameterType="Map" resultType="Map">
-		SELECT count(*) as count, mname, mgrade
+		SELECT count(*) as count, mname, mgrade, mno
 		FROM members
 		WHERE memail=#{kemail} AND mconnect=1
 	</select>
 	
 	<select id="hasNaverUser" parameterType="Map" resultType="Map">
-		SELECT count(*) as count, mname, mgrade
+		SELECT count(*) as count, mname, mgrade, mno
 		FROM members
 		WHERE memail=#{Nemail} AND mconnect=2
 	</select>
@@ -27,7 +27,7 @@
 	</update>
 
 	<select id="hasAuto" parameterType="Map" resultType="Map">
-		SELECT auto, mname, mgrade
+		SELECT auto, mname, mgrade, mid, mno
 		FROM members
 		WHERE mid=#{sid}
 	</select>

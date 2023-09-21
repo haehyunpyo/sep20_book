@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+h2 {
+    font-weight: bold; 
+    font-size: 35px; 
+    color: black;
+    margin-bottom: 10px;
+}
+
+.userBox{
+   box-sizing : border-box;
+   margin: 100px auto;
+   padding: 20px;
+   font-size:15px;
+   background-color:#F2F2F2;
+   width: 700px;
+   text-align: centr;
+}
+
+input{
+    background-color:white;
+    border-radius: 5px;
+    width: 70%;
+    height: 50px;
+    border: none;
+    border-bottom: 1px solid black;
+     outline:none;
+     margin: 10px;
+}
+
+label{
+    margin: 17px 0px 17px 0px;
+    padding-right: 10px;
+    text-align: left;
+    vertical-align: middle;
+    width: 100px;
+}
+
+button{
+   background-color: black;
+   color: white;
+   border: none;
+    border-radius: 5px;
+    padding: 10px 25px; 
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    float: left;
+}
